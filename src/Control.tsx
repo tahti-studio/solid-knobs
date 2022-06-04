@@ -1,29 +1,30 @@
 import ParameterGestureHandler, { Props as GestureHandlerProps } from './ParameterGestureHandler';
 import { JSX, splitProps } from 'solid-js';
 
-export type Props = Omit<Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'>, 'onMouseDown'> & GestureHandlerProps & {
-  children?: any;
+export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<GestureHandlerProps, 'children'> & {
   label?: string;
   defaultValue?: number;
-  onMouseDown(e: MouseEvent | TouchEvent): void;
+  onGestureStart?(e: MouseEvent | TouchEvent): void;
+  onGestureEnd?(e: MouseEvent | TouchEvent): void;
+  children: any;
 }
 
 export default function Control(allProps: Props) {
   const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
 
-  const onMouseDown = (e: MouseEvent | TouchEvent) => {
-    if (divProps.onMouseDown instanceof Function) {
-      divProps.onMouseDown(e);
+  const onGestureStart = (e: MouseEvent | TouchEvent) => {
+    if (divProps.onGestureStart instanceof Function) {
+      divProps.onGestureStart(e);
     }
     
-    const mouseUpListener = (e: MouseEvent) => {
-      if (divProps.onMouseUp instanceof Function)
-        divProps.onMouseUp && divProps.onMouseUp(e as any);
+    const onGestureEnd = (e: MouseEvent) => {
+      if (divProps.onGestureEnd instanceof Function)
+        divProps.onGestureEnd && divProps.onGestureEnd(e);
         
-      window.removeEventListener('mouseup', mouseUpListener);
+      window.removeEventListener('mouseup', onGestureEnd);
     };
-    window.addEventListener('mouseup', mouseUpListener);
+    window.addEventListener('mouseup', onGestureEnd);
   }
 
   const resetToDefault = () => {
@@ -45,9 +46,9 @@ export default function Control(allProps: Props) {
           aria-valuenow={gestureProps.value}
           aria-valuetext={gestureProps.range.toString(gestureProps.value)}
           {...divProps}
-          onMouseDown={onMouseDown}
-          onTouchStart={onMouseDown}
-          onClick={onMouseDown}>
+          onMouseDown={onGestureStart}
+          onTouchStart={onGestureStart}
+          onClick={onGestureStart}>
           {props.children}
         </div>
       }
