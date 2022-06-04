@@ -1,3 +1,6 @@
+/**
+ * Clamps `value` to at least `min` and at most `max`.
+ */
 export function limit(value: number, min: number, max: number) {
   return Math.min(Math.max(min, value), max);
 }
@@ -6,6 +9,9 @@ function log(n: number, base: number) {
   return Math.log(n) / Math.log(base);
 }
 
+/**
+ * Converts `value` from the range `valueStart`...`valueEnd` to the range `targetStart`...`targetEnd`.
+ */
 function toRange(value: number, valueStart: number, valueEnd: number, targetStart: number, targetEnd: number) {
   if (valueEnd === valueStart) {
     return targetStart;
@@ -15,19 +21,64 @@ function toRange(value: number, valueStart: number, valueEnd: number, targetStar
 }
 
 export interface Range {
+  /**
+   * Converts `value` to a normalised value (ranging from 0 to 1) and returns it.
+   */
   toNormalised(value: number): number;
+
+  /**
+   * Converts a normalised `value` (ranging from 0 to 1) to it's natural range and returns it.
+   */
   fromNormalised(value: number): number;
+
+  /**
+   * Parses `value` from a value and a unit and returns the value as a number.
+   */
   fromString(value: number, unit: string): number;
+
+  /**
+   * Converts an unnormalised `value` to a user-friendly string representation.
+   */
   toString(value: number): string;
+
+  /**
+   * Snaps an unnormalised `value` to the closest legal value.
+   */
   snap(value: number): number;
+
+  /**
+   * Returns a random un-normalised value.
+   */
   getRandom(): number;
+
+  /**
+   * Limits an un-normalised value to be within the range.
+   */
   limit(value: number): number;
+
+  /**
+   * Nudges the un-normalised `value` by `steps`.
+   */
   nudge(value: number, steps: number): number;
+
+  /**
+   * Returns the start value of the range.
+   */
   getStart(): number;
+
+  /**
+   * Returns the end value of the range.
+   */
   getEnd(): number;
   setStart(value: number): void;
   setEnd(value: number): void;
   modulationToString(value: number): string;
+}
+
+export enum Scale {
+  Exponential,
+  Logarithmic,
+  Linear
 }
 
 interface Args {
@@ -36,20 +87,20 @@ interface Args {
   bipolar?: boolean,
   fromString: (value: number, unit: string) => number,
   toString: (value: number) => string,
-  interpolation: {
-    type: 'exp',
+  scale: {
+    type: Scale.Exponential,
     exp: number
   } | {
-    type: 'log',
+    type: Scale.Logarithmic,
     base: number
   } | {
-    type: 'none'
+    type: Scale.Linear
   },
   snap?: number[] | number,
   step?: number
 }
 
-export type Choice = {
+export interface Choice {
   value: number;
   label: string;
   group?: string;
@@ -190,7 +241,7 @@ export class ContinuousRange implements Range {
     toString: (value: number) => {
       return value.toFixed(1);
     },
-    interpolation: { type: 'none' }
+    scale: { type: Scale.Linear }
   };
 
   snapMargin = 0.025;
@@ -234,8 +285,8 @@ export class ContinuousRange implements Range {
     return new ContinuousRange({ ...this.args, bipolar: true });
   }
 
-  withInterpolation(interpolation: Args['interpolation']) {
-    return new ContinuousRange({ ...this.args, interpolation });
+  withInterpolation(interpolation: Args['scale']) {
+    return new ContinuousRange({ ...this.args, scale: interpolation });
   }
 
   withSnap(values: number[]) {
@@ -292,21 +343,21 @@ export class ContinuousRange implements Range {
   }
 
   interpolate(value: number) {
-    switch (this.args.interpolation.type) {
-      case 'exp':
-        return Math.pow(value, 1 / (this.args.interpolation.exp || 1));
-      case 'log':
-        return log(value, this.args.interpolation.base);
+    switch (this.args.scale.type) {
+      case Scale.Exponential:
+        return Math.pow(value, 1 / (this.args.scale.exp || 1));
+      case Scale.Logarithmic:
+        return log(value, this.args.scale.base);
     }
     return value;
   }
 
   inverseInterpolate(value: number) {
-    switch (this.args.interpolation.type) {
-      case 'exp':
-        return Math.pow(value, this.args.interpolation.exp || 1);
-      case 'log':
-        return Math.pow(this.args.interpolation.base, value);
+    switch (this.args.scale.type) {
+      case Scale.Exponential:
+        return Math.pow(value, this.args.scale.exp || 1);
+      case Scale.Logarithmic:
+        return Math.pow(this.args.scale.base, value);
     }
     return value;
   }

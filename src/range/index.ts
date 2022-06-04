@@ -1,1 +1,1 @@
-export { ContinuousRange, ChoiceRange, ToggleRange, Range, Choice, limit } from './range'; 
+export { ContinuousRange, ChoiceRange, ToggleRange, Range, Choice, limit, Scale } from './range'; 
