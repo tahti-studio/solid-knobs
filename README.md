@@ -4,6 +4,9 @@ WIP
 
 This library provides primitives for building user-friendly controls for parameters that control audio (or anything else). The components are written for SolidJS.
 
+## Install
+`npm install solid-parameter-controls`
+
 ## Build
 Run `npm run build`.
 

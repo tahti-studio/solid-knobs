@@ -1,17 +1,18 @@
 import ParameterGestureHandler, { Props as GestureHandlerProps } from './ParameterGestureHandler';
 import { JSX, splitProps } from 'solid-js';
 
-export type Props = JSX.HTMLAttributes<HTMLDivElement> & GestureHandlerProps & {
+export type Props = Omit<Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'>, 'onMouseDown'> & GestureHandlerProps & {
   children?: any;
   label?: string;
   defaultValue?: number;
+  onMouseDown(e: MouseEvent | TouchEvent): void;
 }
 
 export default function Control(allProps: Props) {
   const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
 
-  const onMouseDown = (e: MouseEvent & { currentTarget: HTMLDivElement; target: Element; }) => {
+  const onMouseDown = (e: MouseEvent | TouchEvent) => {
     if (divProps.onMouseDown instanceof Function) {
       divProps.onMouseDown(e);
     }
@@ -44,7 +45,9 @@ export default function Control(allProps: Props) {
           aria-valuenow={gestureProps.value}
           aria-valuetext={gestureProps.range.toString(gestureProps.value)}
           {...divProps}
-          onMouseDown={onMouseDown}>
+          onMouseDown={onMouseDown}
+          onTouchStart={onMouseDown}
+          onClick={onMouseDown}>
           {props.children}
         </div>
       }
