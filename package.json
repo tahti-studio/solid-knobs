@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "generate-docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "author": "",
   "license": "MIT",
@@ -13,5 +14,10 @@
   },
   "dependencies": {
     "typescript": "^4.7.3"
+  },
+  "devDependencies": {
+    "solid-js": "^1.4.3",
+    "typedoc": "^0.22.17",
+    "typedoc-plugin-markdown": "^3.12.1"
   }
 }
