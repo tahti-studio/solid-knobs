@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/tahti-studio/solid-parameter-controls"
+  },
   "dependencies": {
     "typescript": "^4.7.3"
   }
