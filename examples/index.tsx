@@ -1,4 +1,4 @@
-import { Control, Arc, Range, ContinuousRange, ValueInput, Scale } from 'solid-parameter-controls';
+import { Control, Arc, Range, ContinuousRange, ValueInput, Scale } from 'solid-knobs';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -67,7 +67,7 @@ const snappingRange = new ContinuousRange({
 
 function ExampleApp() {
   return <>
-    <h1>solid-parameter-controls examples</h1>
+    <h1>solid-knobs examples</h1>
     <h2>Basic knob</h2>
     <Knob defaultValue={0.5} range={percentageRange} />
     <h2>Knob with stepped range</h2>

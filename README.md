@@ -1,13 +1,13 @@
-# solid-parameter-controls
+# solid-knobs
 
 WIP
 
 This library provides primitives for building user-friendly controls for parameters that control audio (or anything else). The components are written for SolidJS and have no external dependencies.
 
-Check out the examples: https://tahti-studio.github.io/solid-parameter-controls/
+Check out the examples: https://tahti-studio.github.io/solid-knobs/
 
 ## Install
-`npm install solid-parameter-controls`
+`npm install solid-knobs`
 
 ## Docs
 
@@ -21,7 +21,7 @@ A `Range` specifies the range and scale of a value, and how a value should be fo
 
 Usage:
 ```tsx
-import { ContinousRange, ToggleRange, ChoiceRange, Scale } from 'solid-parameter-controls';
+import { ContinousRange, ToggleRange, ChoiceRange, Scale } from 'solid-knobs';
 
 const percentageRange = new ContinuousRange({
   start: 0,
@@ -83,7 +83,7 @@ interface Props {
 
 Usage:
 ```jsx
-import { ParameterGestureHandler } from 'solid-parameter-controls';
+import { ParameterGestureHandler } from 'solid-knobs';
 
 function MyControl(props) {
   return (
