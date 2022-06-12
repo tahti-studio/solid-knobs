@@ -1,10 +1,12 @@
 # solid-knobs
 
+[![npm version](https://badge.fury.io/js/solid-knobs.svg)](https://badge.fury.io/js/solid-knobs)
+
 WIP
 
-This library provides primitives for building user-friendly controls for parameters that control audio (or anything else). The components are written for SolidJS and have no external dependencies.
+This library provides a set of utilities for building user-friendly controls for audio parameters and the like. The utilities come without any styling, they only provide means for setting up most commonly used functionalities. The components are written for SolidJS and have no external dependencies. 
 
-Check out the examples: https://tahti-studio.github.io/solid-knobs/
+Check out the examples at https://tahti-studio.github.io/solid-knobs/
 
 ## Install
 `npm install solid-knobs`
@@ -13,15 +15,26 @@ Check out the examples: https://tahti-studio.github.io/solid-knobs/
 
 ### Ranges
 
-A `Range` specifies the range and scale of a value, and how a value should be formatted for the user. There are three classes that implement the `Range` interface:
+A `Range` specifies the range and scale of a value, and how a value should be formatted for the user. Currently there are two classes that implement the `Range` interface:
 
 - `ContinuousRange`: the most common type of range used for numerical values that are continous (e.g. frequency, volume etc)
 - `ChoiceRange`: a range that represents a finite number of choices with textual labels (e.g. type of filter)
-- `ToggleRange`: a simple on/off type of range
+
+A couple of helpers are also exported for creating some of the most common range types: `createFrequencyRange`, `createVolumeRange`, `createPercentageRange` and `createAccuratePercentageRange`.
+
+The range utilities do not depend on SolidJS and they can be imported separately from `solid-knobs/range`.
+
+#### ContinousRange
+
+TODO
+
+#### ChoiceRange
+
+TODO
 
 Usage:
 ```tsx
-import { ContinousRange, ToggleRange, ChoiceRange, Scale } from 'solid-knobs';
+import { ContinousRange, ChoiceRange, Scale } from 'solid-knobs';
 
 const percentageRange = new ContinuousRange({
   start: 0,
@@ -44,7 +57,7 @@ const filterTypeRange = new ChoiceRange([
 
 ```
 
-### ParameterGestureHandler
+### ParameterGestureHandler (SolidJS component)
 
 The `ParameterGestureHandler` component doesn't render anything itself, it simply wraps an existing element and makes it behave like a control by giving it the following abilities:
 
@@ -54,7 +67,7 @@ The `ParameterGestureHandler` component doesn't render anything itself, it simpl
 - after focusing the element, the up/down/left/right arrow keys can be used to nudge the value by different increments
 
 ```ts
-interface Props {
+interface ParameterGestureHandlerProps {
   children: (ref: any) => any;
 
   // un-normalised
@@ -98,9 +111,30 @@ function MyControl(props) {
 }
 ```
 
-### Control
+### Control (SolidJS component)
 
-The `Control` component implements sensible defaults that are needed for an accessible control element. It uses `ParameterGestureHandler` under the hood and you should probably use `Control` instead of `ParameterGestureHandler` for most cases.
+The `Control` component implements a higher level control that covers most common use-cases and takes care of accessibility. It uses `ParameterGestureHandler` under the hood and you should probably use `Control` instead of `ParameterGestureHandler` for most cases.
+
+```ts
+type ControlProps =
+Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> &
+Omit<ParameterGestureHandlerProps, 'children'> &
+{
+  // the label that should be used for the aria label (for accessibility)
+  label?: string;
+
+  // the default value of the parameter value
+  defaultValue?: number;
+
+  // called when starting the change gesture
+  onGestureStart?(e: MouseEvent | TouchEvent): void;
+
+  // called when ending the change gesture
+  onGestureEnd?(e: MouseEvent | TouchEvent): void;
+
+  children: any;
+}
+```
 
 Usage:
 ```tsx
@@ -112,6 +146,48 @@ function Knob(props) {
   );
 }
 ```
+
+### ValueInput (SolidJS component)
+
+A glorified input element that formats the value according to a range and properly handles user input.
+
+```ts
+interface ValueInputProps extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+  // called when the value is changed by the user
+  onChange(value: number): void;
+
+  // the range of the value
+  range: Range;
+
+  // the un-normalised value
+  value: number;
+}
+```
+
+### Arc (SolidJS component)
+
+Arc is a simple utility component that returns a `<path />` element for drawing an arc segment in an SVG element.
+
+```ts
+interface ArcProps extends JSX.PathSVGAttributes<SVGPathElement> {
+  // the X coordinate of the arc's center
+  x: number;
+
+  // the Y coordinate of the arc's center
+  y: number;
+
+  // the radius of the arc
+  radius: number;
+
+  // the start angle of the arc in degrees
+  startAngle: number;
+
+  // the end angle of the arc in degrees
+  endAngle: number;
+}
+```
+
+See the `examples` folder for usage examples.
 
 ## TODO
 - [ ] docs

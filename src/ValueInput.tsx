@@ -1,8 +1,7 @@
 import { JSX, splitProps } from "solid-js";
 import { Range } from "./range";
 
-
-interface Props extends Omit<Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange'>, 'value'> {
+interface Props extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
   onChange(value: number): void;
   range: Range;
   value: number;

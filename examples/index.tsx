@@ -1,4 +1,4 @@
-import { Control, Arc, Range, ContinuousRange, ValueInput, Scale } from 'solid-knobs';
+import { Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange } from 'solid-knobs';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -14,7 +14,12 @@ function Knob(props: ControlProps) {
 
   const baseAngle = 135;
   return (
-    <Control class="knob" range={props.range} value={value()} onChange={setValue}>
+    <Control
+      defaultValue={props.defaultValue}
+      class="knob"
+      range={props.range}
+      value={value()}
+      onChange={setValue}>
       <svg style="width: 5rem;" viewBox="0 0 100 100">
         <circle cx={50} cy={50} r={25} fill="#555" />
         <Arc
@@ -29,7 +34,7 @@ function Knob(props: ControlProps) {
           x={50}
           y={50}
           radius={38}
-          startAngle={props.range.args.bipolar ? 0 : -baseAngle}
+          startAngle={props.range instanceof ContinuousRange && props.range.args.bipolar ? 0 : -baseAngle}
           endAngle={-baseAngle + baseAngle * 2 * normalisedValue()}
           stroke="black"
           stroke-width={10} />
@@ -39,36 +44,11 @@ function Knob(props: ControlProps) {
   );
 }
 
-const percentageRange = new ContinuousRange({
-  start: 0,
-  end: 1,
-  toString: v => `${(100 * v).toFixed(2)}%`
-});
-
 const steppedRange = new ContinuousRange({
   start: 1,
   end: 10,
   step: 1,
   toString: v => String(Math.round(v))
-});
-
-const frequencyRange = new ContinuousRange({
-  start: 20,
-  end: 20000,
-  scale: { type: Scale.Logarithmic, base: 10 },
-  fromString: (value, unit) => {
-    if (unit === 'k') {
-      return value * 1000;
-    }
-    return value;
-  },
-  toString: (v: number) => {
-    if (v < 10000) {
-      return Math.round(v) + ' Hz';
-    } else {
-      return (v / 1000).toFixed(1) + ' kHz';
-    }
-  }
 });
 
 const snappingRange = new ContinuousRange({
@@ -78,17 +58,37 @@ const snappingRange = new ContinuousRange({
   snap: [0, 10, 25, 40]
 });
 
+const choiceRange = new ChoiceRange([
+  { value: 0, label: 'LP 12dB' },
+  { value: 1, label: 'LP 24dB' },
+  { value: 2, label: 'HP 12dB' },
+  { value: 3, label: 'HP 24dB' },
+  { value: 4, label: 'BP 12dB' },
+  { value: 5, label: 'BP 24dB' }
+]);
+
 function ExampleApp() {
   return <>
     <h1>solid-knobs examples</h1>
+
+    <p>
+      <a href="https://github.com/tahti-studio/solid-knobs/blob/master/examples/index.tsx">See the code</a>
+    </p>
+    
     <h2>Basic knob</h2>
-    <Knob defaultValue={0.5} range={percentageRange} />
+    <Knob defaultValue={0.5} range={createVolumeRange()} />
+
     <h2>Knob with stepped range</h2>
     <Knob defaultValue={7} range={steppedRange} />
+
     <h2>Knob with logarithmic scale</h2>
-    <Knob defaultValue={1000} range={frequencyRange} />
+    <Knob defaultValue={1000} range={createFrequencyRange()} />
+
     <h2>Knob that snaps to specified values</h2>
     <Knob defaultValue={10} range={snappingRange} />
+
+    <h2>Knob with choices</h2>
+    <Knob defaultValue={3} range={choiceRange} />
   </>;
 }
 
