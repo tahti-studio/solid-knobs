@@ -7,7 +7,7 @@
     "build": "rm -rf dist && tsc",
     "deploy-examples": "gh-pages -d examples/dist"
   },
-  "author": "",
+  "author": "maxjvh <max.huttunen@gmail.com>",
   "license": "MIT",
   "repository": {
     "url": "https://github.com/tahti-studio/solid-knobs"
