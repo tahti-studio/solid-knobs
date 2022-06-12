@@ -34,13 +34,7 @@ TODO
 
 Usage:
 ```tsx
-import { ContinousRange, ChoiceRange, Scale } from 'solid-knobs';
-
-const percentageRange = new ContinuousRange({
-  start: 0,
-  end: 1,
-  toString: v => `${(100 * v).toFixed(2)}%`
-});
+import { ContinousRange, ChoiceRange, Scale, createVolumeRange } from 'solid-knobs';
 
 const frequencyRange = new ContinuousRange({
   start: 20,
@@ -54,6 +48,8 @@ const filterTypeRange = new ChoiceRange([
   { value: 1, label: 'High-pass' },
   { value: 2, label: 'Band-pass' }
 ]);
+
+const volumeRange = createVolumeRange(0, 1);
 
 ```
 
@@ -98,17 +94,15 @@ Usage:
 ```jsx
 import { ParameterGestureHandler } from 'solid-knobs';
 
-function MyControl(props) {
-  return (
-    <ParameterGestureHandler {...props}>
-      {ref =>
-        <div ref={ref}>
-          // custom visualisation code
-        </div>
-      }
-    </ParameterGestureHandler>
-  );
-}
+...
+
+<ParameterGestureHandler {...props}>
+  {ref =>
+    <div ref={ref}>
+      // custom visualisation code
+    </div>
+  }
+</ParameterGestureHandler>
 ```
 
 ### Control (SolidJS component)
@@ -138,13 +132,11 @@ Omit<ParameterGestureHandlerProps, 'children'> &
 
 Usage:
 ```tsx
-function Knob(props) {
-  return (
-    <Control range={props.range} value={value()} onChange={setValue}>
-      // your custom control visualisation goes here
-    </Control>
-  );
-}
+import { Control } from 'solid-knobs';
+
+<Control range={range} value={value()} onChange={setValue}>
+  // your custom control visualisation goes here
+</Control>
 ```
 
 ### ValueInput (SolidJS component)
