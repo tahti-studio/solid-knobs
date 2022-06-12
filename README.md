@@ -7,9 +7,6 @@ This library provides primitives for building user-friendly controls for paramet
 ## Install
 `npm install solid-parameter-controls`
 
-## Build
-Run `npm run build`.
-
 ## Docs
 
 ### Ranges
@@ -118,3 +115,7 @@ function Knob(props) {
 - [ ] docs
 - [ ] examples
 - [ ] tests
+
+## Contributing
+
+Contributions are most welcome!
