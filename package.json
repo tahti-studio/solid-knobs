@@ -12,10 +12,8 @@
   "repository": {
     "url": "https://github.com/tahti-studio/solid-knobs"
   },
-  "dependencies": {
-    "typescript": "^4.7.3"
-  },
   "devDependencies": {
+    "typescript": "^4.7.3",
     "gh-pages": "^4.0.0",
     "solid-js": "^1.4.3"
   }
