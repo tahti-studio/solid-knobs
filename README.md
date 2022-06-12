@@ -6,12 +6,14 @@ WIP
 
 This library provides a set of utilities for building user-friendly controls for audio parameters and the like. The utilities come without any styling, they only provide means for setting up most commonly used functionalities. The components are written for SolidJS and have no external dependencies. 
 
-Check out the examples at https://tahti-studio.github.io/solid-knobs/
+Demo: https://tahti-studio.github.io/solid-knobs/
 
 ## Install
 `npm install solid-knobs`
 
 ## Docs
+
+Below is a reference of all the different utilities provided by `solid-knobs`. To get a feel for how they might actually be used, please [take a look at the examples](examples/index.tsx). The examples are hosted at: https://tahti-studio.github.io/solid-knobs/
 
 ### Ranges
 
