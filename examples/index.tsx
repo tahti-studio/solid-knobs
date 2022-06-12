@@ -14,7 +14,7 @@ function Knob(props: ControlProps) {
 
   const baseAngle = 135;
   return (
-    <Control range={props.range} value={value()} onChange={setValue}>
+    <Control class="knob" range={props.range} value={value()} onChange={setValue}>
       <svg style="width: 5rem;" viewBox="0 0 100 100">
         <circle cx={50} cy={50} r={25} fill="#555" />
         <Arc
@@ -34,7 +34,7 @@ function Knob(props: ControlProps) {
           stroke="black"
           stroke-width={10} />
       </svg>
-      <ValueInput range={props.range} value={value()} onChange={setValue} />
+      <ValueInput class="value-input" range={props.range} value={value()} onChange={setValue} />
     </Control>
   );
 }
@@ -48,14 +48,27 @@ const percentageRange = new ContinuousRange({
 const steppedRange = new ContinuousRange({
   start: 1,
   end: 10,
-  step: 1
+  step: 1,
+  toString: v => String(Math.round(v))
 });
 
 const frequencyRange = new ContinuousRange({
   start: 20,
   end: 20000,
   scale: { type: Scale.Logarithmic, base: 10 },
-  toString: v => `${v.toPrecision(2)} Hz`
+  fromString: (value, unit) => {
+    if (unit === 'k') {
+      return value * 1000;
+    }
+    return value;
+  },
+  toString: (v: number) => {
+    if (v < 10000) {
+      return Math.round(v) + ' Hz';
+    } else {
+      return (v / 1000).toFixed(1) + ' kHz';
+    }
+  }
 });
 
 const snappingRange = new ContinuousRange({

@@ -10,6 +10,7 @@ interface Props extends Omit<Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'on
 
 export default function ValueInput(allProps: Props) {
   const [props, inputProps] = splitProps(allProps, ['onChange', 'range', 'value']);
+
   return (
     <input
       type="text"
@@ -20,7 +21,7 @@ export default function ValueInput(allProps: Props) {
           e.stopPropagation();
           const number = e.target.value.replace(/[^0-9\.\-]/g, '');
           const unit = e.target.value.replace(number, '');
-          props.onChange(props.range.fromString(+number, unit));
+          props.onChange(props.range.limit(props.range.fromString(+number, unit)));
         }
       }}
       value={props.range.toString(props.value)}

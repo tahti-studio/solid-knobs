@@ -13,8 +13,7 @@
     "babel-loader": "^8.2.5",
     "babel-preset-solid": "^1.4.4",
     "html-webpack-plugin": "^5.5.0",
-    "solid-js": "^1.4.4",
-    "solid-knobs": "^0.0.5",
+    "solid-knobs": "file:..",
     "webpack": "^5.73.0"
   },
   "source": "index.html",
