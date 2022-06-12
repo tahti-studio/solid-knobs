@@ -4,6 +4,8 @@ WIP
 
 This library provides primitives for building user-friendly controls for parameters that control audio (or anything else). The components are written for SolidJS and have no external dependencies.
 
+Check out the examples: https://tahti-studio.github.io/solid-parameter-controls/
+
 ## Install
 `npm install solid-parameter-controls`
 
