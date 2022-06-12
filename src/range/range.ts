@@ -60,15 +60,7 @@ export interface Range {
    * Nudges the un-normalised `value` by `steps`.
    */
   nudge(value: number, steps: number): number;
-
-  /**
-   * Returns the start value of the range.
-   */
   getStart(): number;
-
-  /**
-   * Returns the end value of the range.
-   */
   getEnd(): number;
   setStart(value: number): void;
   setEnd(value: number): void;
