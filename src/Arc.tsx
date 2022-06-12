@@ -37,7 +37,8 @@ interface Props extends JSX.PathSVGAttributes<SVGPathElement> {
 }
 
 /**
- * Produces an SVG path element that renders an arc segment.
+ * Returns an SVG path element that renders an arc segment.
+ * The `startAngle` and `endAngle` arguments are expressed in degrees.
  */
 export default function Arc(allProps: Props) {
   const [props, pathProps] = splitProps(allProps, ['x', 'y', 'radius', 'startAngle', 'endAngle']);

@@ -1,0 +1,27 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production webpack",
+    "watch": "webpack server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@babel/preset-typescript": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "babel-preset-solid": "^1.4.4",
+    "html-webpack-plugin": "^5.5.0",
+    "solid-js": "^1.4.4",
+    "solid-parameter-controls": "^0.0.5",
+    "webpack": "^5.73.0"
+  },
+  "source": "index.html",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.2"
+  }
+}

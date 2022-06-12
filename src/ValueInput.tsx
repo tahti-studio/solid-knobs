@@ -2,13 +2,14 @@ import { JSX, splitProps } from "solid-js";
 import { Range } from "./range";
 
 
-interface Props extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface Props extends Omit<Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange'>, 'value'> {
   onChange(value: number): void;
   range: Range;
+  value: number;
 }
 
 export default function ValueInput(allProps: Props) {
-  const [props, inputProps] = splitProps(allProps, ['onChange', 'range']);
+  const [props, inputProps] = splitProps(allProps, ['onChange', 'range', 'value']);
   return (
     <input
       type="text"
@@ -22,7 +23,7 @@ export default function ValueInput(allProps: Props) {
           props.onChange(props.range.fromString(+number, unit));
         }
       }}
-      value={inputProps.value}
+      value={props.range.toString(props.value)}
       {...inputProps} />
   )
 };
