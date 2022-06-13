@@ -1,4 +1,4 @@
-import { Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange } from 'solid-knobs';
+import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange } from 'solid-knobs';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -10,7 +10,7 @@ interface ControlProps {
 function Knob(props: ControlProps) {
   const [value, setValue] = createSignal(props.defaultValue);
 
-  const normalisedValue = () => props.range.toNormalised(value());
+  const normalisedValue = () => rangeFunctions.toNormalised(props.range, value());
 
   const baseAngle = 135;
   return (
@@ -34,7 +34,7 @@ function Knob(props: ControlProps) {
           x={50}
           y={50}
           radius={38}
-          startAngle={props.range instanceof ContinuousRange && props.range.args.bipolar ? 0 : -baseAngle}
+          startAngle={props.range.type === RangeType.Continuous && props.range.bipolar ? 0 : -baseAngle}
           endAngle={-baseAngle + baseAngle * 2 * normalisedValue()}
           stroke="black"
           stroke-width={10} />
@@ -44,28 +44,33 @@ function Knob(props: ControlProps) {
   );
 }
 
-const steppedRange = new ContinuousRange({
+const steppedRange: ContinuousRange = {
+  type: RangeType.Continuous,
   start: 1,
   end: 10,
   step: 1,
-  toString: v => String(Math.round(v))
-});
+  valueToString: v => String(Math.round(v))
+};
 
-const snappingRange = new ContinuousRange({
+const snappingRange: ContinuousRange = {
+  type: RangeType.Continuous,
   start: -50,
   end: 50,
   bipolar: true,
   snap: [0, 10, 25, 40]
-});
+};
 
-const choiceRange = new ChoiceRange([
-  { value: 0, label: 'LP 12dB' },
-  { value: 1, label: 'LP 24dB' },
-  { value: 2, label: 'HP 12dB' },
-  { value: 3, label: 'HP 24dB' },
-  { value: 4, label: 'BP 12dB' },
-  { value: 5, label: 'BP 24dB' }
-]);
+const choiceRange: ChoiceRange = {
+  type: RangeType.Choice,
+  choices: [
+    { value: 0, label: 'LP 12dB' },
+    { value: 1, label: 'LP 24dB' },
+    { value: 2, label: 'HP 12dB' },
+    { value: 3, label: 'HP 24dB' },
+    { value: 4, label: 'BP 12dB' },
+    { value: 5, label: 'BP 24dB' }
+  ]
+};
 
 function ExampleApp() {
   return <>

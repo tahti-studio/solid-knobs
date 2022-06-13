@@ -1,5 +1,6 @@
 import { createEffect, onCleanup } from 'solid-js';
 import { Range } from './range';
+import { rangeFunctions } from './range/range';
 
 export interface Props {
   children: (ref: any) => any;
@@ -24,9 +25,9 @@ export default function ParameterGestureHandler(props: Props) {
     if (props.onChange) {
 
       if (newValue !== value) {
-        newValue = props.range.fromNormalised(newValue);
+        newValue = rangeFunctions.fromNormalised(props.range, newValue);
         if (snap) {
-          newValue = props.range.snap(newValue);
+          newValue = rangeFunctions.snap(props.range, newValue);
         }
         props.onChange(newValue);
       }
@@ -118,7 +119,7 @@ export default function ParameterGestureHandler(props: Props) {
       e.preventDefault();
       e.stopPropagation();
       const nudge = (['ArrowDown', 'ArrowUp'].includes(e.key) ? 1 : 10) * (['ArrowLeft', 'ArrowDown'].includes(e.key) ? -1 : 1);
-      props.onChange(props.range.nudge(props.value, nudge));
+      props.onChange(rangeFunctions.nudge(props.range, props.value, nudge));
     }
   }
 
@@ -167,7 +168,7 @@ export default function ParameterGestureHandler(props: Props) {
   });
 
   createEffect(() => {
-    value = props.range.toNormalised(props.value);
+    value = rangeFunctions.toNormalised(props.range, props.value);
   });
 
   return props.children(registerElement);

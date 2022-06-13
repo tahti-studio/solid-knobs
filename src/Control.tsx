@@ -1,4 +1,5 @@
 import ParameterGestureHandler, { Props as GestureHandlerProps } from './ParameterGestureHandler';
+import { rangeFunctions } from './range/range';
 import { JSX, splitProps } from 'solid-js';
 
 export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<GestureHandlerProps, 'children'> & {
@@ -41,10 +42,10 @@ export default function Control(allProps: Props) {
           tabIndex={0}
           role="slider"
           aria-label={props.label}
-          aria-valuemin={gestureProps.range.getStart()}
-          aria-valuemax={gestureProps.range.getEnd()}
+          aria-valuemin={rangeFunctions.getStart(gestureProps.range)}
+          aria-valuemax={rangeFunctions.getEnd(gestureProps.range)}
           aria-valuenow={gestureProps.value}
-          aria-valuetext={gestureProps.range.toString(gestureProps.value)}
+          aria-valuetext={rangeFunctions.toString(gestureProps.range, gestureProps.value)}
           {...divProps}
           onMouseDown={onGestureStart}
           onTouchStart={onGestureStart}

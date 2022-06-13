@@ -20,51 +20,193 @@ function toRange(value: number, valueStart: number, valueEnd: number, targetStar
   return limit(targetStart + normalised * (targetEnd - targetStart), targetStart, targetEnd);
 }
 
-export interface Range {
+export const rangeFunctions = {
   /**
    * Converts `value` to a normalised value (ranging from 0 to 1) and returns it.
    */
-  toNormalised(value: number): number;
+  toNormalised(range: Range, value: number): number {
+    switch (range.type) {
+      case RangeType.Choice:
+        return range.choices.findIndex(c => c.value === value) / (range.choices.length - 1);
+      case RangeType.Continuous: {
+        const interpolatedStart = this.interpolate(range, range.start);
+        const interpolatedEnd = this.interpolate(range, range.end);
+        if (range.bipolar) {
+          const interpolatedValue = Math.sign(value) * this.interpolate(range, this.limitToStep(range, Math.abs(value)));
+          return toRange(interpolatedValue, -interpolatedEnd, interpolatedEnd, 0, 1);
+        }
+        const interpolatedValue = this.interpolate(range, this.limitToStep(range, value));
+        return toRange(interpolatedValue, interpolatedStart, interpolatedEnd, 0, 1);
+      }
+        
+    }
+  },
 
   /**
    * Converts a normalised `value` (ranging from 0 to 1) to it's natural range and returns it.
    */
-  fromNormalised(value: number): number;
+  fromNormalised(range: Range, normalisedValue: number): number {
+    switch (range.type) {
+      case RangeType.Continuous: {
+        const interpolatedStart = this.interpolate(range, range.start);
+        const interpolatedEnd = this.interpolate(range, range.end);
+        if (range.bipolar) {
+          const denormalisedValue = toRange(normalisedValue, 0, 1, -interpolatedEnd, interpolatedEnd);
+          return this.limitToStep(range, Math.sign(denormalisedValue) * this.inverseInterpolate(range, Math.abs(denormalisedValue)));
+        }
+        const denormalisedValue = toRange(normalisedValue, 0, 1, interpolatedStart, interpolatedEnd);
+        return this.limitToStep(range, this.inverseInterpolate(range, denormalisedValue));
+      }
+      case RangeType.Choice: {
+        normalisedValue = limit(normalisedValue, 0, 1);
+        return range.choices[Math.round(normalisedValue * (range.choices.length - 1))].value;
+      }
+    }
+  },
 
   /**
    * Parses `value` from a value and a unit and returns the value as a number.
    */
-  fromString(value: number, unit: string): number;
+  fromString(range: Range, value: number, unit: string): number {
+    switch (range.type) {
+      case RangeType.Choice: {
+        return value;
+      }
+      case RangeType.Continuous: {
+        return range.stringToValue ? range.stringToValue(value, unit) : Number(value);
+      }
+    }
+  },
 
   /**
    * Converts an unnormalised `value` to a user-friendly string representation.
    */
-  toString(value: number): string;
+  toString(range: Range, value: number): string {
+    switch (range.type) {
+      case RangeType.Continuous: {
+        return range.valueToString ? range.valueToString(value) : value.toFixed(1);
+      }
+      case RangeType.Choice: {
+        return range.choices.find(d => d.value === value)?.label || '???';
+      }
+    }
+  },
 
   /**
    * Snaps an unnormalised `value` to the closest legal value.
    */
-  snap(value: number): number;
+  snap(range: Range, value: number): number {
+    switch (range.type) {
+      case RangeType.Continuous: {
+        value = this.toNormalised(range, value);
+        if (Array.isArray(range.snap)) {
+          for (const step of range.snap) {
+            if (Math.abs(value - this.toNormalised(range, step)) <= (range.snapMargin || 0.025))
+              return step;
+          }
+        } else if (range.snap !== undefined) {
+          return Math.round(this.fromNormalised(range, value) / range.snap) * range.snap;
+        }
+        return this.fromNormalised(range, value);
+      }
+      case RangeType.Choice: {
+        return value;
+      }
+    }
+  },
 
   /**
    * Returns a random un-normalised value.
    */
-  getRandom(): number;
+  getRandom(range: Range): number {
+    return this.fromNormalised(range, Math.random());
+  },
 
   /**
    * Limits an un-normalised value to be within the range.
    */
-  limit(value: number): number;
+  limit(range: Range, value: number): number {
+    switch (range.type) {
+      case RangeType.Choice: {
+        value = Math.round(value);
+        if (range.choices.some(c => c.value === value)) {
+          return value;
+        }
+        return -1;
+      }
+      case RangeType.Continuous: {
+        if (range.bipolar) {
+          return limit(value, -range.end, range.end);
+        }
+        return limit(value, range.start, range.end);
+      }
+    }
+  },
 
   /**
    * Nudges the un-normalised `value` by `steps`.
    */
-  nudge(value: number, steps: number): number;
-  getStart(): number;
-  getEnd(): number;
-  setStart(value: number): void;
-  setEnd(value: number): void;
-  modulationToString(value: number): string;
+  nudge(range: Range, value: number, steps: number): number {
+    switch (range.type) {
+      case RangeType.Choice: {
+        const index = limit(range.choices.findIndex(c => c.value === value) + steps, 0, range.choices.length - 1);
+        return range.choices[index].value;
+      }
+      case RangeType.Continuous: {
+        if (range.step) {
+          return this.limitToStep(range, value + steps);
+        }
+        return this.fromNormalised(range, this.toNormalised(range, value) + steps * 0.01);
+      }
+    }
+  },
+
+  getStart(range: Range) {
+    switch (range.type) {
+      case RangeType.Choice: {
+        return 0;
+      }
+      case RangeType.Continuous: {
+        return range.start;
+      }
+    }
+  },
+
+  getEnd(range: Range) {
+    switch (range.type) {
+      case RangeType.Choice: {
+        return range.choices.length - 1;
+      }
+      case RangeType.Continuous: {
+        return range.end;
+      }
+    }
+  },
+
+  interpolate(range: ContinuousRange, value: number) {
+    switch (range.scale?.type) {
+      case Scale.Exponential:
+        return Math.pow(value, 1 / (range.scale.exp || 1));
+      case Scale.Logarithmic:
+        return log(value, range.scale.base);
+    }
+    return value;
+  },
+  inverseInterpolate(range: ContinuousRange, value: number) {
+    switch (range.scale?.type) {
+      case Scale.Exponential:
+        return Math.pow(value, range.scale.exp || 1);
+      case Scale.Logarithmic:
+        return Math.pow(range.scale.base, value);
+    }
+    return value;
+  },
+  limitToStep(range: ContinuousRange, value: number) {
+    if (range.step) {
+      return Math.round(value / range.step) * range.step;
+    }
+    return value;
+  }
 }
 
 export enum Scale {
@@ -73,13 +215,16 @@ export enum Scale {
   Linear
 }
 
-interface Args {
+export enum RangeType { Continuous, Choice }
+
+export interface ContinuousRange {
+  type: RangeType.Continuous,
   start: number,
   end: number,
   bipolar?: boolean,
-  fromString: (value: number, unit: string) => number,
-  toString: (value: number) => string,
-  scale: {
+  stringToValue?: (value: number, unit: string) => number,
+  valueToString?: (value: number) => string,
+  scale?: {
     type: Scale.Exponential,
     exp: number
   } | {
@@ -89,311 +234,19 @@ interface Args {
     type: Scale.Linear
   },
   snap?: number[] | number,
-  step?: number
+  step?: number,
+  snapMargin?: number
 }
+
+export interface ChoiceRange {
+  type: RangeType.Choice,
+  choices: Choice[]
+}
+
+export type Range = ContinuousRange | ChoiceRange;
 
 export interface Choice {
   value: number;
   label: string;
-  group?: string;
+  data?: unknown;
 };
-
-export class ChoiceRange implements Range {
-  choices: Choice[];
-
-  constructor(choices: Choice[]) {
-    this.choices = choices;
-  }
-
-  toNormalised(value: number) {
-    return this.choices.findIndex(c => c.value === value) / (this.choices.length - 1);
-  }
-
-  fromNormalised(value: number) {
-    value = limit(value, 0, 1);
-    return this.choices[Math.round(value * (this.choices.length - 1))].value;
-  }
-
-  fromString(value: number, unit: string) {
-    return value;
-  }
-
-  toString(value: number) {
-    return this.choices.find(d => d.value === value)?.label || '???';
-  }
-
-  getRandom() {
-    return this.choices[Math.floor(Math.random() * this.choices.length)].value;
-  }
-
-  snap(value: number) {
-    return value;
-  }
-
-  limit(value: number) {
-    value = Math.round(value);
-    if (this.choices.some(c => c.value === value)) {
-      return value;
-    }
-    return -1;
-  }
-
-  nudge(value: number, steps: number) {
-    const index = limit(this.choices.findIndex(c => c.value === value) + steps, 0, this.choices.length - 1);
-    return this.choices[index].value;
-  }
-
-  getStart() {
-    return this.choices[0].value;
-  }
-
-  getEnd() {
-    return this.choices[this.choices.length - 1].value;
-  }
-
-  setStart(value: number) {
-    throw new Error('not applicable');
-  }
-
-  setEnd(value: number) {
-    throw new Error('not applicable');
-  }
-
-  modulationToString(value: number): string {
-    return `${(100 * value).toPrecision(1)}%`;
-  }
-}
-
-export class ToggleRange implements Range {
-  toNormalised(value: number) {
-    return value > 0.5 ? 1 : 0;
-  }
-
-  fromNormalised(value: number) {
-    return value > 0.5 ? 1 : 0;
-  }
-
-  fromString(value: number, unit: string) {
-    return value;
-  }
-
-  getRandom() {
-    return Math.random() > 0.5 ? 1 : 0;
-  }
-
-  snap(value: number) {
-    return value;
-  }
-
-  limit(value: number) {
-    return limit(Math.round(value), 0, 1);
-  }
-
-  toString(value: number) {
-    return value > 0.5 ? 'on' : 'off';
-  }
-
-  nudge(value: number, steps: number) {
-    if (value === 0 && steps > 0) {
-      return 1;
-    } else if (value === 1 && steps < 0) {
-      return 0;
-    }
-    return value;
-  }
-
-  getStart() {
-    return 0;
-  }
-
-  getEnd() {
-    return 1;
-  }
-
-  setStart(value: number) {
-    throw new Error('not applicable');
-  }
-
-  setEnd(value: number) {
-    throw new Error('not applicable');
-  }
-
-  modulationToString(value: number): string {
-    return `${(100 * value).toPrecision(1)}%`;
-  }
-}
-
-export class ContinuousRange implements Range {
-  args: Args = {
-    start: 0,
-    end: 1,
-    fromString: (value: number, unit: string) => {
-      return value;
-    },
-    toString: (value: number) => {
-      return value.toFixed(1);
-    },
-    scale: { type: Scale.Linear }
-  };
-
-  snapMargin = 0.025;
-  interpolatedStart: number;
-  interpolatedEnd: number;
-
-  constructor(args: Partial<Args>) {
-    this.args = {
-      ...this.args,
-      ...args
-    };
-    this.interpolatedStart = this.interpolate(this.args.start);
-    this.interpolatedEnd = this.interpolate(this.args.end);
-    this.fromString = this.args.fromString;
-
-    if (this.args.bipolar && this.args.snap && Array.isArray(this.args.snap)) {
-      for (const snap of [...this.args.snap]) {
-        if (snap !== 0)
-          this.args.snap.push(-snap);
-      }
-    }
-    if (Array.isArray(this.args.snap)) {
-      this.args.snap.sort();
-    }
-  }
-
-  fromString: Args['fromString'];
-
-  withStart(newStart: number) {
-    return new ContinuousRange({
-      ...this.args,
-      start: newStart
-    });
-  }
-
-  withEnd(newEnd: number) {
-    return new ContinuousRange({ ...this.args, end: newEnd });
-  }
-
-  asBipolar() {
-    return new ContinuousRange({ ...this.args, bipolar: true });
-  }
-
-  withInterpolation(interpolation: Args['scale']) {
-    return new ContinuousRange({ ...this.args, scale: interpolation });
-  }
-
-  withSnap(values: number[]) {
-    return new ContinuousRange({ ...this.args, snap: values });
-  }
-
-  limitToStep(value: number) {
-    if (this.args.step) {
-      return Math.round(value / this.args.step) * this.args.step;
-    }
-    return value;
-  }
-
-  snap(value: number) {
-    value = this.toNormalised(value);
-    if (Array.isArray(this.args.snap)) {
-      for (const step of this.args.snap) {
-        if (Math.abs(value - this.toNormalised(step)) <= this.snapMargin)
-          return step;
-      }
-    } else if (this.args.snap !== undefined) {
-      return Math.round(this.fromNormalised(value) / this.args.snap) * this.args.snap;
-    }
-    return this.fromNormalised(value);
-  }
-
-  getRandom() {
-    return this.fromNormalised(Math.random());
-  }
-
-  limit(value: number) {
-    if (this.args.bipolar) {
-      return limit(value, -this.args.end, this.args.end);
-    }
-    return limit(value, this.args.start, this.args.end);
-  }
-
-  toNormalised(value: number) {
-    if (this.args.bipolar) {
-      const interpolatedValue = Math.sign(value) * this.interpolate(this.limitToStep(Math.abs(value)));
-      return toRange(interpolatedValue, -this.interpolatedEnd, this.interpolatedEnd, 0, 1);
-    }
-    const interpolatedValue = this.interpolate(this.limitToStep(value));
-    return toRange(interpolatedValue, this.interpolatedStart, this.interpolatedEnd, 0, 1);
-  }
-
-  fromNormalised(normalisedValue: number) {
-    if (this.args.bipolar) {
-      const denormalisedValue = toRange(normalisedValue, 0, 1, -this.interpolatedEnd, this.interpolatedEnd);
-      return this.limitToStep(Math.sign(denormalisedValue) * this.inverseInterpolate(Math.abs(denormalisedValue)));
-    }
-    const denormalisedValue = toRange(normalisedValue, 0, 1, this.interpolatedStart, this.interpolatedEnd);
-    return this.limitToStep(this.inverseInterpolate(denormalisedValue));
-  }
-
-  interpolate(value: number) {
-    switch (this.args.scale.type) {
-      case Scale.Exponential:
-        return Math.pow(value, 1 / (this.args.scale.exp || 1));
-      case Scale.Logarithmic:
-        return log(value, this.args.scale.base);
-    }
-    return value;
-  }
-
-  inverseInterpolate(value: number) {
-    switch (this.args.scale.type) {
-      case Scale.Exponential:
-        return Math.pow(value, this.args.scale.exp || 1);
-      case Scale.Logarithmic:
-        return Math.pow(this.args.scale.base, value);
-    }
-    return value;
-  }
-
-  asModulationRange(): ContinuousRange {
-    const span = Math.abs(this.args.end - this.args.start);
-    return new ContinuousRange({
-      ...this.args,
-      start: 0,
-      bipolar: true,
-      end: span
-    });
-  }
-
-  toString(value: number) {
-    return this.args.toString(value);
-  }
-
-  nudge(value: number, steps: number) {
-    if (this.args.step) {
-      return this.limitToStep(value + steps);
-    }
-    return this.fromNormalised(this.toNormalised(value) + steps * 0.01);
-  }
-
-  getStart() {
-    return this.args.start;
-  }
-
-  getEnd() {
-    return this.args.end;
-  }
-
-  setStart(value: number) {
-    this.args.start = value;
-    this.interpolatedStart = this.interpolate(this.args.start);
-  }
-
-  setEnd(value: number) {
-    this.args.end = value;
-    this.interpolatedEnd = this.interpolate(this.args.end);
-  }
-
-  modulationToString = (value: number): string => {
-    return this.toString(value * (this.args.end - this.args.start));
-  }
-}
