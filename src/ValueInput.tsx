@@ -24,7 +24,11 @@ export default function ValueInput(allProps: Props) {
           props.onChange(
             rangeFunctions.limit(props.range, rangeFunctions.fromString(props.range, +number, unit))
           );
+          e.target.select();
         }
+      }}
+      onBlur={(e: any) => {
+        e.target.value = rangeFunctions.toString(props.range, props.value);
       }}
       value={rangeFunctions.toString(props.range, props.value)}
       {...inputProps} />
