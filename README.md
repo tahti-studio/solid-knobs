@@ -17,7 +17,7 @@ Below is a reference of all the different utilities provided by `solid-knobs`. T
 
 ### Ranges
 
-A `Range` specifies the range and scale of a value, and how a value should be formatted for the user. Currently there are two classes that implement the `Range` interface:
+A `Range` specifies the range and scale of a value, and how a value should be formatted for the user. Currently there are two types of `Range`:
 
 - `ContinuousRange`: the most common type of range used for numerical values that are continous (e.g. frequency, volume etc)
 - `ChoiceRange`: a range that represents a finite number of choices with textual labels (e.g. type of filter)
@@ -28,31 +28,98 @@ The range utilities do not depend on SolidJS and they can be imported separately
 
 #### ContinousRange
 
-TODO
+```ts
+interface ContinuousRange {
+  // the type of a ContinuousRange is always RangeType.Continuous
+  type: RangeType.Continuous,
+
+  // the start value of the range
+  start: number,
+
+  // the end value of the range
+  end: number,
+
+  // whether the range is a bipolar one
+  bipolar?: boolean,
+
+  // a function for converting a value with a certain unit to a value in the range
+  stringToValue?: (value: number, unit: string) => number,
+
+  // a function for formatting a value of this range as a string
+  valueToString?: (value: number) => string,
+
+  // the scaling of the range when presented in an interface
+  scale?: {
+    type: Scale.Exponential,
+    exp: number
+  } | {
+    type: Scale.Logarithmic
+  } | {
+    type: Scale.Linear // this is the default
+  },
+  
+  // the values to which the user-interface control should snap
+  snap?: number[] | number,
+
+  // how far away a value has to be from a snap point for it to snap
+  snapMargin?: number,
+
+  // the step between values, if you want a range that allows only integer values, set this to 1
+  step?: number,
+}
+
+enum Scale {
+  Exponential,
+  Logarithmic,
+  Linear
+}
+```
 
 #### ChoiceRange
 
-TODO
+```ts
+interface ChoiceRange {
+  // the type of a ChoiceRange is always RangeType.Choice
+  type: RangeType.Choice,
+
+  // a list of choices that the range contains (see Choice below)
+  choices: Choice[]
+}
+
+interface Choice {
+  // the numerical value of the choice
+  value: number,
+
+  // the textual (user-friendly) representation of the choice
+  label: string,
+
+  // additional free-form data
+  data?: unknown
+}
+```
 
 Usage:
 ```tsx
-import { ContinousRange, ChoiceRange, Scale, createVolumeRange } from 'solid-knobs';
+import { ContinousRange, ChoiceRange, Scale, RangeType, createVolumeRange } from 'solid-knobs';
 
-const frequencyRange = new ContinuousRange({
+const frequencyRange: ContinousRange = {
+  type: RangeType.Continuous,
   start: 20,
   end: 20000,
   scale: { type: Scale.Logarithmic, base: 10 },
   toString: v => `${v.toPrecision(2)} Hz`
 });
 
-const filterTypeRange = new ChoiceRange([
-  { value: 0, label: 'Low-pass' }
-  { value: 1, label: 'High-pass' },
-  { value: 2, label: 'Band-pass' }
-]);
+const filterTypeRange: ChoiceRange = {
+  type: RangeType.Choice,
+  choices: [
+    { value: 0, label: 'Low-pass' }
+    { value: 1, label: 'High-pass' },
+    { value: 2, label: 'Band-pass' }
+  ]
+};
 
 const volumeRange = createVolumeRange(0, 1);
-
 ```
 
 ### ParameterGestureHandler (SolidJS component)
@@ -180,13 +247,6 @@ interface ArcProps extends JSX.PathSVGAttributes<SVGPathElement> {
   endAngle: number;
 }
 ```
-
-See the `examples` folder for usage examples.
-
-## TODO
-- [ ] docs
-- [ ] examples
-- [ ] tests
 
 ## Contributing
 
