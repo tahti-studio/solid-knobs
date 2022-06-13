@@ -1,6 +1,6 @@
 export * from './range'; 
 
-import { Scale, ContinuousRange, RangeType } from './range';
+import { Scale, ContinuousRange, RangeType, ChoiceRange } from './range';
 
 export const createFrequencyRange = (start = 20, end = 20000): ContinuousRange => ({
   type: RangeType.Continuous,
@@ -76,4 +76,12 @@ export const createAccuratePercentageRange = (start = 0, end = 1): ContinuousRan
       return '100%';
     return strValue + '%';
   }
+});
+
+export const createToggleRange = (offLabel = 'Off', onLabel = 'On'): ChoiceRange => ({
+  type: RangeType.Choice,
+  choices: [
+    { value: 0, label: offLabel },
+    { value: 1, label: onLabel }
+  ]
 });
