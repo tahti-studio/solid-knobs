@@ -6,7 +6,7 @@ export const createFrequencyRange = (start = 20, end = 20000): ContinuousRange =
   type: RangeType.Continuous,
   start,
   end,
-  scale: { type: Scale.Logarithmic, base: 10 },
+  scale: { type: Scale.Logarithmic },
   stringToValue: (value, unit) => {
     if (unit === 'k') {
       return value * 1000;

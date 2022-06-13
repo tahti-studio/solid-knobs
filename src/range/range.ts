@@ -5,10 +5,6 @@ export function limit(value: number, min: number, max: number) {
   return Math.min(Math.max(min, value), max);
 }
 
-function log(n: number, base: number) {
-  return Math.log(n) / Math.log(base);
-}
-
 /**
  * Converts `value` from the range `valueStart`...`valueEnd` to the range `targetStart`...`targetEnd`.
  */
@@ -188,7 +184,7 @@ export const rangeFunctions = {
       case Scale.Exponential:
         return Math.pow(value, 1 / (range.scale.exp || 1));
       case Scale.Logarithmic:
-        return log(value, range.scale.base);
+        return Math.log(value);
     }
     return value;
   },
@@ -197,7 +193,7 @@ export const rangeFunctions = {
       case Scale.Exponential:
         return Math.pow(value, range.scale.exp || 1);
       case Scale.Logarithmic:
-        return Math.pow(range.scale.base, value);
+        return Math.exp(value);
     }
     return value;
   },
@@ -228,8 +224,7 @@ export interface ContinuousRange {
     type: Scale.Exponential,
     exp: number
   } | {
-    type: Scale.Logarithmic,
-    base: number
+    type: Scale.Logarithmic
   } | {
     type: Scale.Linear
   },
