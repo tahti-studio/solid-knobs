@@ -1,3 +1,44 @@
+export type Range = ContinuousRange | ChoiceRange;
+
+export enum RangeType { Continuous, Choice }
+
+export enum Scale {
+  Exponential,
+  Logarithmic,
+  Linear
+}
+
+export interface ContinuousRange {
+  type: RangeType.Continuous,
+  start: number,
+  end: number,
+  bipolar?: boolean,
+  stringToValue?: (value: number, unit: string) => number,
+  valueToString?: (value: number) => string,
+  scale?: {
+    type: Scale.Exponential,
+    exp: number
+  } | {
+    type: Scale.Logarithmic
+  } | {
+    type: Scale.Linear
+  },
+  snap?: number[] | number,
+  step?: number,
+  snapMargin?: number
+}
+
+export interface ChoiceRange {
+  type: RangeType.Choice,
+  choices: Choice[]
+}
+
+export interface Choice {
+  value: number;
+  label: string;
+  data?: unknown;
+}
+
 /**
  * Clamps `value` to at least `min` and at most `max`.
  */
@@ -204,44 +245,3 @@ export const rangeFunctions = {
     return value;
   }
 }
-
-export enum Scale {
-  Exponential,
-  Logarithmic,
-  Linear
-}
-
-export enum RangeType { Continuous, Choice }
-
-export interface ContinuousRange {
-  type: RangeType.Continuous,
-  start: number,
-  end: number,
-  bipolar?: boolean,
-  stringToValue?: (value: number, unit: string) => number,
-  valueToString?: (value: number) => string,
-  scale?: {
-    type: Scale.Exponential,
-    exp: number
-  } | {
-    type: Scale.Logarithmic
-  } | {
-    type: Scale.Linear
-  },
-  snap?: number[] | number,
-  step?: number,
-  snapMargin?: number
-}
-
-export interface ChoiceRange {
-  type: RangeType.Choice,
-  choices: Choice[]
-}
-
-export type Range = ContinuousRange | ChoiceRange;
-
-export interface Choice {
-  value: number;
-  label: string;
-  data?: unknown;
-};

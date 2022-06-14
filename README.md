@@ -2,53 +2,47 @@
 
 [![npm version](https://badge.fury.io/js/solid-knobs.svg)](https://badge.fury.io/js/solid-knobs)
 
-WIP
-
-This library provides a set of utilities for building user-friendly controls for audio parameters and the like. The utilities come without any styling, they only provide means for setting up most commonly used functionalities. The components are written for SolidJS and have no external dependencies. 
+This library provides a set of utilities for building user-friendly controls for audio parameters and the like. The utilities come without any visual styling, they only try to make the task of setting up commonly needed functionalities easier. The included JSX components are written for SolidJS and have no external dependencies.
 
 Demo: https://tahti-studio.github.io/solid-knobs/
 
 ## Install
+
 `npm install solid-knobs`
 
 ## Docs
 
-Below is a reference of all the different utilities provided by `solid-knobs`. To get a feel for how they might actually be used, please [take a look at the examples](examples/index.tsx). The examples are hosted at: https://tahti-studio.github.io/solid-knobs/
+Below is a reference of all the different utilities provided by `solid-knobs`. However, to get a feel for how they're actually used, please [take a look at the examples](examples/index.tsx). The examples are hosted at: https://tahti-studio.github.io/solid-knobs/
 
 ### Ranges
 
-A `Range` specifies the range and scale of a value, and how a value should be formatted for the user. Currently there are two types of `Range`:
-
-- `ContinuousRange`: the most common type of range used for numerical values that are continous (e.g. frequency, volume etc)
-- `ChoiceRange`: a range that represents a finite number of choices with textual labels (e.g. type of filter)
-
-A couple of helpers are also exported for creating some of the most common range types: `createFrequencyRange`, `createVolumeRange`, `createPercentageRange` and `createAccuratePercentageRange`.
-
-The range utilities do not depend on SolidJS and they can be imported separately from `solid-knobs/range`.
+A `Range` specifies the range, scale and UI behaviours of a controlled value. Currently there are two types of `Range`:
 
 #### ContinousRange
 
+The most common type of range used for numerical values that are continous (e.g. frequency, volume etc).
+
 ```ts
 interface ContinuousRange {
-  // the type of a ContinuousRange is always RangeType.Continuous
+  // The type of a ContinuousRange is always RangeType.Continuous.
   type: RangeType.Continuous,
 
-  // the start value of the range
+  // The start value of the range.
   start: number,
 
-  // the end value of the range
+  // The end value of the range.
   end: number,
 
-  // whether the range is a bipolar one
+  // Whether the range is a bipolar one.
   bipolar?: boolean,
 
-  // a function for converting a value with a certain unit to a value in the range
+  // A function for converting a value with a certain unit to a value in the range.
   stringToValue?: (value: number, unit: string) => number,
 
-  // a function for formatting a value of this range as a string
+  // A function for formatting a value of this range as a string.
   valueToString?: (value: number) => string,
 
-  // the scaling of the range when presented in an interface
+  // The scaling of the range defines how the value is controlled in a UI.
   scale?: {
     type: Scale.Exponential,
     exp: number
@@ -58,45 +52,102 @@ interface ContinuousRange {
     type: Scale.Linear // this is the default
   },
   
-  // the values to which the user-interface control should snap
+  // The values to which the user-interface control should snap.
+  // Note! Always provide these values from smallest to largest.
   snap?: number[] | number,
 
-  // how far away a value has to be from a snap point for it to snap
+  // How far away a value has to be from a snap point for it to snap.
   snapMargin?: number,
 
-  // the step between values, if you want a range that allows only integer values, set this to 1
-  step?: number,
-}
-
-enum Scale {
-  Exponential,
-  Logarithmic,
-  Linear
+  // The step between values. If you want a range that allows only integer values, set this to 1.
+  step?: number
 }
 ```
 
 #### ChoiceRange
 
+A range that represents a finite number of choices with textual labels (think enums).
+
 ```ts
 interface ChoiceRange {
-  // the type of a ChoiceRange is always RangeType.Choice
+  // The type of a ChoiceRange is always RangeType.Choice.
   type: RangeType.Choice,
 
-  // a list of choices that the range contains (see Choice below)
+  // A list of choices that the range contains (see Choice below).
   choices: Choice[]
 }
 
 interface Choice {
-  // the numerical value of the choice
+  // The numerical value of the choice.
   value: number,
 
-  // the textual (user-friendly) representation of the choice
+  // The textual (user-friendly) representation of the choice.
   label: string,
 
-  // additional free-form data
+  // Additional free-form data.
   data?: unknown
 }
 ```
+
+A couple of helpers are also exported for creating common ranges:
+
+```ts
+const createFrequencyRange: (start?: number, end?: number) => ContinuousRange;
+const createVolumeRange: (start?: number, end?: number) => ContinuousRange;
+const createPercentageRange: (start?: number, end?: number) => ContinuousRange;
+const createBipolarPercentageRange: (start?: number, end?: number) => ContinuousRange;
+const createAccuratePercentageRange: (start?: number, end?: number) => ContinuousRange;
+const createToggleRange: (offLabel?: string, onLabel?: string) => ChoiceRange;
+```
+
+`solid-knobs` also exports a set of functions as `rangeFunctions` for working with ranges. These functions are:
+
+```ts
+/**
+ * Converts `value` to a normalised value (ranging from 0 to 1) and returns it.
+ */
+toNormalised(range: Range, value: number): number;
+
+/**
+ * Converts a normalised `value` (ranging from 0 to 1) to it's natural range and returns it.
+ */
+fromNormalised(range: Range, normalisedValue: number): number;
+
+/**
+ * Parses `value` from a value and a unit and returns the value as a number.
+ */
+fromString(range: Range, value: number, unit: string): number;
+
+/**
+ * Converts an unnormalised `value` to a user-friendly string representation.
+ */
+toString(range: Range, value: number): string;
+
+/**
+ * Snaps an unnormalised `value` to the closest legal value.
+ */
+snap(range: Range, value: number): number;
+
+/**
+ * Returns a random un-normalised value.
+ */
+getRandom(range: Range): number;
+
+/**
+ * Limits an un-normalised value to be within the range.
+ */
+limit(range: Range, value: number): number;
+
+/**
+ * Nudges the un-normalised `value` by `steps`.
+ */
+nudge(range: Range, value: number, steps: number): number;
+
+getStart(range: Range): number;
+getEnd(range: Range): number;
+```
+
+The range utilities do not depend on SolidJS and they can be imported separately from `solid-knobs/range`.
 
 Usage:
 ```tsx
@@ -106,9 +157,9 @@ const frequencyRange: ContinousRange = {
   type: RangeType.Continuous,
   start: 20,
   end: 20000,
-  scale: { type: Scale.Logarithmic, base: 10 },
+  scale: { type: Scale.Logarithmic },
   toString: v => `${v.toPrecision(2)} Hz`
-});
+};
 
 const filterTypeRange: ChoiceRange = {
   type: RangeType.Choice,
@@ -119,7 +170,7 @@ const filterTypeRange: ChoiceRange = {
   ]
 };
 
-const volumeRange = createVolumeRange(0, 1);
+const volumeRange = createVolumeRange(0, 1.5);
 ```
 
 ### ParameterGestureHandler (SolidJS component)
@@ -131,30 +182,32 @@ The `ParameterGestureHandler` component doesn't render anything itself, it simpl
 - hold shift while changing the value to change it more precisely
 - after focusing the element, the up/down/left/right arrow keys can be used to nudge the value by different increments
 
+It also takes care of blocking user-selection on the page while dragging.
+
 ```ts
 interface ParameterGestureHandlerProps {
   children: (ref: any) => any;
 
-  // un-normalised
+  // The un-normalised value.
   value: number,
 
-  // called with the un-normalised valye
+  // Called with the un-normalised value.
   onChange?: (value: number) => void,
 
-  // called when starting the change gesture
+  // Called when starting the change gesture.
   onStart?: (value: number) => void,
 
-  // called when ending the change gesture
+  // Called when ending the change gesture.
   onEnd?: (value: number) => void,
 
-  // the range of the value
+  // The range of the value.
   range: Range,
 
-  // the relative speed of the change gesture, the default is 1
+  // The relative speed of the change gesture. The default is 1.
   speed?: number,
 
-  // whether the cursor should be hidden while changing the value
-  // note: this might result in constant annoying pop-ups in certain browsers
+  // Whether the cursor should be hidden while changing the value.
+  // Note! This might result in constant annoying pop-ups in certain browsers.
   hideCursor?: boolean
 }
 ```
@@ -162,9 +215,9 @@ interface ParameterGestureHandlerProps {
 Usage:
 ```jsx
 import { ParameterGestureHandler } from 'solid-knobs';
+```
 
-...
-
+```jsx
 <ParameterGestureHandler {...props}>
   {ref =>
     <div ref={ref}>
@@ -179,20 +232,21 @@ import { ParameterGestureHandler } from 'solid-knobs';
 The `Control` component implements a higher level control that covers most common use-cases and takes care of accessibility. It uses `ParameterGestureHandler` under the hood and you should probably use `Control` instead of `ParameterGestureHandler` for most cases.
 
 ```ts
+// Note that ControlProps extends the ParameterGestureHandlerProps defined above.
 type ControlProps =
 Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> &
 Omit<ParameterGestureHandlerProps, 'children'> &
 {
-  // the label that should be used for the aria label (for accessibility)
+  // The label that should be used for the aria label (for accessibility).
   label?: string;
 
-  // the default value of the parameter value
+  // The default value.
   defaultValue?: number;
 
-  // called when starting the change gesture
+  // Called when starting the change gesture.
   onGestureStart?(e: MouseEvent | TouchEvent): void;
 
-  // called when ending the change gesture
+  // Called when ending the change gesture.
   onGestureEnd?(e: MouseEvent | TouchEvent): void;
 
   children: any;
@@ -202,7 +256,9 @@ Omit<ParameterGestureHandlerProps, 'children'> &
 Usage:
 ```tsx
 import { Control } from 'solid-knobs';
+```
 
+```tsx
 <Control range={range} value={value()} onChange={setValue}>
   // your custom control visualisation goes here
 </Control>
@@ -214,13 +270,13 @@ A glorified input element that formats the value according to a range and proper
 
 ```ts
 interface ValueInputProps extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
-  // called when the value is changed by the user
+  // Called when the value is changed by the user.
   onChange(value: number): void;
 
-  // the range of the value
+  // The range of the value.
   range: Range;
 
-  // the un-normalised value
+  // The un-normalised value.
   value: number;
 }
 ```
@@ -231,19 +287,19 @@ Arc is a simple utility component that returns a `<path />` element for drawing 
 
 ```ts
 interface ArcProps extends JSX.PathSVGAttributes<SVGPathElement> {
-  // the X coordinate of the arc's center
+  // The X coordinate of the arc's center.
   x: number;
 
-  // the Y coordinate of the arc's center
+  // The Y coordinate of the arc's center.
   y: number;
 
-  // the radius of the arc
+  // The radius of the arc.
   radius: number;
 
-  // the start angle of the arc in degrees
+  // The start angle of the arc in degrees.
   startAngle: number;
 
-  // the end angle of the arc in degrees
+  // The end angle of the arc in degrees.
   endAngle: number;
 }
 ```

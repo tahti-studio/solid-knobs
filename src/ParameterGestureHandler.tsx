@@ -49,6 +49,9 @@ export default function ParameterGestureHandler(props: Props) {
   const onMouseUp = () => {
     if (!isDragging)
       return;
+
+    (document as any).body.style.userSelect = null;
+    (document as any).body.style.webkitUserSelect = null;
       
     if (props.onEnd) {
       props.onEnd(props.value);
@@ -59,10 +62,13 @@ export default function ParameterGestureHandler(props: Props) {
     }
   };
 
-  const mouseDown = (e: MouseEvent) => {
+  const onMouseDown = (e: MouseEvent) => {
     if (props.onStart) {
       props.onStart(props.value);
     }
+
+    document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
 
     valueOnDragStart = value;
     dragValue = 0;
@@ -138,7 +144,7 @@ export default function ParameterGestureHandler(props: Props) {
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('mouseup', onMouseUp);
   
-      element.addEventListener('mousedown', mouseDown);
+      element.addEventListener('mousedown', onMouseDown);
       element.addEventListener('wheel', wheel, { passive: false });
       element.addEventListener('keyup', keyUp);
 
@@ -156,7 +162,7 @@ export default function ParameterGestureHandler(props: Props) {
     window.removeEventListener('mouseup', onMouseUp);
 
     if (element) {
-      element.removeEventListener('mousedown', mouseDown);
+      element.removeEventListener('mousedown', onMouseDown);
       element.removeEventListener('wheel', wheel);
       element.removeEventListener('keyup', keyUp);
       element.removeEventListener('blur', blur);

@@ -1,4 +1,4 @@
-import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange } from 'solid-knobs';
+import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale } from 'solid-knobs';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -72,11 +72,29 @@ const choiceRange: ChoiceRange = {
   ]
 };
 
+const exponentialScale: ContinuousRange = {
+  type: RangeType.Continuous,
+  start: 0,
+  end: 5,
+  scale: {
+    type: Scale.Exponential,
+    exp: 3
+  },
+  valueToString: v => {
+    if (v < 1) {
+      return Math.round(v * 1000) + ' ms';
+    }
+    return v.toFixed(2) + ' s';
+  }
+};
+
 function ExampleApp() {
   return <>
     <h1>solid-knobs examples</h1>
 
     <p>
+      <a href="https://github.com/tahti-studio/solid-knobs/">Learn more</a>
+      &nbsp;&bull;&nbsp;
       <a href="https://github.com/tahti-studio/solid-knobs/blob/master/examples/index.tsx">See the code</a>
     </p>
     
@@ -88,6 +106,9 @@ function ExampleApp() {
 
     <h2>Knob with logarithmic scale</h2>
     <Knob defaultValue={1000} range={createFrequencyRange()} />
+
+    <h2>Knob with exponential scale</h2>
+    <Knob defaultValue={1.25} range={exponentialScale} />
 
     <h2>Knob that snaps to specified values</h2>
     <Knob defaultValue={10} range={snappingRange} />
