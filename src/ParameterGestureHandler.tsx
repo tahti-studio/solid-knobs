@@ -13,6 +13,13 @@ export interface Props {
   hideCursor?: boolean
 }
 
+let numActiveGestures = 0;
+window.addEventListener('selectstart', e => {
+  if (numActiveGestures > 0) {
+    e.preventDefault();
+  }
+});
+
 export default function ParameterGestureHandler(props: Props) {
   let element: HTMLElement | null = null;
   let isDragging: boolean = false;
@@ -50,8 +57,7 @@ export default function ParameterGestureHandler(props: Props) {
     if (!isDragging)
       return;
 
-    (document as any).body.style.userSelect = null;
-    (document as any).body.style.webkitUserSelect = null;
+    numActiveGestures--;
       
     if (props.onEnd) {
       props.onEnd(props.value);
@@ -67,8 +73,7 @@ export default function ParameterGestureHandler(props: Props) {
       props.onStart(props.value);
     }
 
-    document.body.style.userSelect = 'none';
-    document.body.style.webkitUserSelect = 'none';
+    numActiveGestures++;
 
     valueOnDragStart = value;
     dragValue = 0;
@@ -94,6 +99,8 @@ export default function ParameterGestureHandler(props: Props) {
       props.onStart(props.value);
     }
 
+    numActiveGestures++;
+
     valueOnDragStart = value;
     dragValue = e.touches[0].pageY;
     isDragging = true;
@@ -114,6 +121,8 @@ export default function ParameterGestureHandler(props: Props) {
     e.preventDefault();
     e.stopPropagation();
     isDragging = false;
+
+    numActiveGestures--;
 
     if (props.onEnd) {
       props.onEnd(props.value);
