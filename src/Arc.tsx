@@ -1,6 +1,7 @@
 import { splitProps } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 
+// from: https://stackoverflow.com/a/18473154
 function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
   var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
   return {
@@ -9,6 +10,7 @@ function polarToCartesian(centerX: number, centerY: number, radius: number, angl
   };
 }
 
+// from: https://stackoverflow.com/a/18473154
 function describeArc(x: number, y: number, radius: number, startAngle: number, endAngle: number): string {
   if (startAngle > endAngle) {
     let tmp = startAngle;
