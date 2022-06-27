@@ -1,4 +1,4 @@
-import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale } from 'solid-knobs';
+import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale, ImageKnob } from 'solid-knobs';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -89,6 +89,8 @@ const exponentialScale: ContinuousRange = {
 };
 
 function ExampleApp() {
+  const [imageKnobValue, setImageKnobValue] = createSignal(0.5);
+
   return <>
     <h1>solid-knobs examples</h1>
 
@@ -115,6 +117,15 @@ function ExampleApp() {
 
     <h2>Knob with choices</h2>
     <Knob defaultValue={3} range={choiceRange} />
+    
+    <h2>Knob using image-strip</h2>
+    <ImageKnob
+      value={imageKnobValue()}
+      onChange={setImageKnobValue}
+      range={createVolumeRange()}
+      imageSrc={require('./knob.png')}
+      numFrames={64} />
+    <div style="height: 20rem;"></div>
   </>;
 }
 

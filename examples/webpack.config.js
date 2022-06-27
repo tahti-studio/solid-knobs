@@ -37,6 +37,10 @@ module.exports = {
             presets: ['@babel/preset-typescript', 'solid'],
           }
         }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        type: 'asset/resource'
       }
     ]
   }
