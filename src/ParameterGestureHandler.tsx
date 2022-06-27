@@ -81,6 +81,12 @@ export default function ParameterGestureHandler(props: Props) {
     isDragging = true;
   }
 
+  const keyDown = (e: KeyboardEvent) => {
+    if (e.shiftKey) {
+      valueOnDragStart = value;
+    }
+  }
+
   const keyUp = () => {
     if (isDragging) {
       valueOnDragStart = value;
@@ -156,6 +162,7 @@ export default function ParameterGestureHandler(props: Props) {
       element.addEventListener('mousedown', onMouseDown);
       element.addEventListener('wheel', wheel, { passive: false });
       element.addEventListener('keyup', keyUp);
+      element.addEventListener('keydown', keyDown);
 
       element.addEventListener('focus', focus);
       element.addEventListener('blur', blur);
@@ -174,6 +181,7 @@ export default function ParameterGestureHandler(props: Props) {
       element.removeEventListener('mousedown', onMouseDown);
       element.removeEventListener('wheel', wheel);
       element.removeEventListener('keyup', keyUp);
+      element.removeEventListener('keydown', keyDown);
       element.removeEventListener('blur', blur);
 
       element.removeEventListener('touchstart', touchStart);
