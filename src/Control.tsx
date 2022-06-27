@@ -1,6 +1,6 @@
 import ParameterGestureHandler, { Props as GestureHandlerProps } from './ParameterGestureHandler';
 import { rangeFunctions } from './range/range';
-import { JSX, splitProps } from 'solid-js';
+import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
 
 export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<GestureHandlerProps, 'children'> & {
   label?: string;
@@ -10,7 +10,26 @@ export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<
   children: any;
 }
 
-export default function Control(allProps: Props) {
+export function createSmoothedValue(value: () => number, speed = 0.01) {
+  const [animatedValue, setAnimatedValue] = createSignal(value());
+
+  let target = value();
+  createEffect(() => {
+    target = value();
+    untrack(() => animate());
+  });
+
+  function animate() {
+    setAnimatedValue(v => v + (target - v) * speed);
+    if (Math.abs(target - animatedValue()) > 0.00001) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  return animatedValue;
+}
+
+export function Control(allProps: Props) {
   const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
 

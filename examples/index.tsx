@@ -1,4 +1,5 @@
-import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale, ImageKnob } from 'solid-knobs';
+// '../src' would be 'solid-knobs' in a real-life scenario
+import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale, ImageKnob, createSmoothedValue } from '../src';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
@@ -7,47 +8,49 @@ interface ControlProps {
   defaultValue: number;
 }
 
-function Knob(props: ControlProps) {
+// simple SVG knob showcasing how to use solid-knobs' primitives to build vectorised controls
+function SVGKnob(props: ControlProps) {
   const [value, setValue] = createSignal(props.defaultValue);
-
+  
   const normalisedValue = () => rangeFunctions.toNormalised(props.range, value());
 
   const baseAngle = 135;
   return (
-    <Control
-      defaultValue={props.defaultValue}
-      class="knob"
-      range={props.range}
-      value={value()}
-      onChange={setValue}>
-      <svg style="width: 5rem;" viewBox="0 0 100 100">
-        <circle cx={50} cy={50} r={25} fill="#555" />
-        <Arc
-          x={50}
-          y={50}
-          radius={38}
-          startAngle={-baseAngle}
-          endAngle={baseAngle}
-          stroke="#eee"
-          stroke-width={10} />
-        <Arc
-          x={50}
-          y={50}
-          radius={38}
-          startAngle={props.range.type === RangeType.Continuous && props.range.bipolar ? 0 : -baseAngle}
-          endAngle={-baseAngle + baseAngle * 2 * normalisedValue()}
-          stroke="black"
-          stroke-width={10} />
-      </svg>
+    <>
+      <Control
+        defaultValue={props.defaultValue}
+        range={props.range}
+        value={value()}
+        onChange={setValue}>
+        <svg style="width: 5rem;" viewBox="0 0 100 100">
+          <circle cx={50} cy={50} r={25} fill="#555" />
+          <Arc
+            x={50}
+            y={50}
+            radius={38}
+            startAngle={-baseAngle}
+            endAngle={baseAngle}
+            stroke="#ccc"
+            stroke-width={10} />
+          <Arc
+            x={50}
+            y={50}
+            radius={38}
+            startAngle={props.range.type === RangeType.Continuous && props.range.bipolar ? 0 : -baseAngle}
+            endAngle={-baseAngle + baseAngle * 2 * normalisedValue()}
+            stroke="black"
+            stroke-width={10} />
+        </svg>
+      </Control>
       <ValueInput class="value-input" range={props.range} value={value()} onChange={setValue} />
-    </Control>
+    </>
   );
 }
 
 const steppedRange: ContinuousRange = {
   type: RangeType.Continuous,
   start: 1,
-  end: 10,
+  end: 11,
   step: 1,
   valueToString: v => String(Math.round(v))
 };
@@ -88,8 +91,15 @@ const exponentialScale: ContinuousRange = {
   }
 };
 
+const imageKnobRange: ContinuousRange = {
+  type: RangeType.Continuous,
+  start: 0,
+  end: 11
+}
+
 function ExampleApp() {
   const [imageKnobValue, setImageKnobValue] = createSignal(0.5);
+  const smoothedValue = createSmoothedValue(imageKnobValue, 0.01);
 
   return <>
     <h1>solid-knobs examples</h1>
@@ -100,32 +110,48 @@ function ExampleApp() {
       <a href="https://github.com/tahti-studio/solid-knobs/blob/master/examples/index.tsx">See the code</a>
     </p>
     
-    <h2>Basic knob</h2>
-    <Knob defaultValue={0.5} range={createVolumeRange()} />
+    <div class="showcase-list">
+      <div class="showcase">
+        <h2>Basic knob</h2>
+        <SVGKnob defaultValue={0.5} range={createVolumeRange()} />
+      </div>
 
-    <h2>Knob with stepped range</h2>
-    <Knob defaultValue={7} range={steppedRange} />
-
-    <h2>Knob with logarithmic scale</h2>
-    <Knob defaultValue={1000} range={createFrequencyRange()} />
-
-    <h2>Knob with exponential scale</h2>
-    <Knob defaultValue={1.25} range={exponentialScale} />
-
-    <h2>Knob that snaps to specified values</h2>
-    <Knob defaultValue={10} range={snappingRange} />
-
-    <h2>Knob with choices</h2>
-    <Knob defaultValue={3} range={choiceRange} />
-    
-    <h2>Knob using image-strip</h2>
-    <ImageKnob
-      value={imageKnobValue()}
-      onChange={setImageKnobValue}
-      range={createVolumeRange()}
-      imageSrc={require('./knob.png')}
-      numFrames={64} />
-    <div style="height: 20rem;"></div>
+      <div class="showcase">
+        <h2>Knob with stepped range</h2>
+        <SVGKnob defaultValue={7} range={steppedRange} />
+      </div>
+      
+      <div class="showcase">
+        <h2>Knob with logarithmic scale</h2>
+        <SVGKnob defaultValue={1000} range={createFrequencyRange()} />
+      </div>
+      
+      <div class="showcase">
+        <h2>Knob with exponential scale</h2>
+        <SVGKnob defaultValue={1.25} range={exponentialScale} />
+      </div>
+      
+      <div class="showcase">
+        <h2>Knob that snaps to specific values</h2>
+        <SVGKnob defaultValue={10} range={snappingRange} />
+      </div>
+      
+      <div class="showcase">
+        <h2>Knob with choices</h2>
+        <SVGKnob defaultValue={3} range={choiceRange} />
+      </div>
+      
+      <div class="showcase">
+        <h2>Knob using image-strip</h2>
+        <ImageKnob
+          style="display: inline-block;"
+          value={smoothedValue()}
+          onChange={setImageKnobValue}
+          range={imageKnobRange}
+          imageSrc={require('./knob.png')}
+          numFrames={79} />
+      </div>
+    </div>
   </>;
 }
 

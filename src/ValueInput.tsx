@@ -14,7 +14,7 @@ export default function ValueInput(allProps: Props) {
   return (
     <input
       type="text"
-      onClick={(e: any) => e.target.select()}
+      onFocus={(e: any) => e.target.select()}
       onKeyDown={(e: any) => {
         if (e.key === 'Enter') {
           e.preventDefault();
