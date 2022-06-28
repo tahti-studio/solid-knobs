@@ -1,10 +1,11 @@
 {
   "name": "solid-knobs",
   "version": "0.1.1",
-  "description": "",
+  "description": "Primitives for building user-friendly controls with SolidJS.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
+    "prepare": "npm run build",
     "deploy-examples": "gh-pages -d examples/dist"
   },
   "author": "maxjvh <max.huttunen@gmail.com>",
