@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "prepare": "npm run build",
-    "deploy-examples": "gh-pages -d examples/dist"
+    "deploy-examples": "cd examples && npm run build && cd .. && gh-pages -d examples/dist"
   },
   "author": "maxjvh <max.huttunen@gmail.com>",
   "license": "MIT",
