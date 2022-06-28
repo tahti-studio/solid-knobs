@@ -4,7 +4,6 @@ import { createSignal } from 'solid-js';
 // '../src' would be 'solid-knobs' in a real-life scenario
 import { 
   Arc,
-  ChoiceRange,
   ContinuousRange,
   Control,
   createFrequencyRange,
@@ -30,7 +29,7 @@ function SVGKnobDemo(props: DemoKnobProps) {
   
   const normalisedValue = () => rangeFunctions.toNormalised(props.range, value());
 
-  const smoothedValue = createSmoothedValue(normalisedValue);
+  const smoothedValue = createSmoothedValue(normalisedValue, 0.7);
 
   const baseAngle = 135;
   return (

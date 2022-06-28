@@ -1,7 +1,7 @@
-export { default as ParameterGestureHandler } from './ParameterGestureHandler';
+export * from './Arc';
 export * from './Control';
-export { default as Arc } from './Arc';
-export { default as ValueInput } from './ValueInput';
-export * from './range';
-export * from './ImageKnob';
 export * from './createSmoothedValue';
+export * from './ImageKnob';
+export * from './ParameterGestureHandler';
+export * from './range';
+export * from './ValueInput';

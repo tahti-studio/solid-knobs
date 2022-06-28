@@ -1,8 +1,8 @@
-import ParameterGestureHandler, { Props as GestureHandlerProps } from './ParameterGestureHandler';
+import { ParameterGestureHandler, ParameterGestureHandlerProps } from './ParameterGestureHandler';
 import { rangeFunctions } from './range/range';
-import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<GestureHandlerProps, 'children'> & {
+export type ControlProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<ParameterGestureHandlerProps, 'children'> & {
   label?: string;
   defaultValue?: number;
   onGestureStart?(e: MouseEvent | TouchEvent): void;
@@ -10,7 +10,7 @@ export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<
   children: any;
 }
 
-export function Control(allProps: Props) {
+export function Control(allProps: ControlProps) {
   const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
 

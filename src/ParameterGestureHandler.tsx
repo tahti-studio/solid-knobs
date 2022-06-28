@@ -2,7 +2,7 @@ import { createEffect, onCleanup } from 'solid-js';
 import { Range } from './range';
 import { rangeFunctions } from './range/range';
 
-export interface Props {
+export interface ParameterGestureHandlerProps {
   children: (ref: any) => any;
   value: number,
   onChange?: (value: number) => void,
@@ -20,7 +20,7 @@ window.addEventListener('selectstart', e => {
   }
 });
 
-export default function ParameterGestureHandler(props: Props) {
+export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   let element: HTMLElement | null = null;
   let isDragging: boolean = false;
   let valueOnDragStart: number = 0;
