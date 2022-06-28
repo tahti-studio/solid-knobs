@@ -9,7 +9,7 @@ import {
   createFrequencyRange,
   createSmoothedValue,
   createVolumeRange,
-  ImageKnob,
+  ImageStripControl,
   Range,
   rangeFunctions,
   RangeType,
@@ -68,7 +68,7 @@ function SVGKnobDemo(props: DemoKnobProps) {
   );
 }
 
-function ImageKnobDemo() {
+function ImageStripControlDemo() {
   const [value, setValue] = createSignal(0.5);
 
   const range: ContinuousRange = {
@@ -80,8 +80,7 @@ function ImageKnobDemo() {
 
   return (
     <>
-      <ImageKnob
-        style="display: inline-block;"
+      <ImageStripControl
         value={value()}
         defaultValue={0.5}
         onChange={setValue}
@@ -187,8 +186,8 @@ function ExampleApp() {
       </div>
       
       <div class="showcase">
-        <h2>Using image-strip</h2>
-        <ImageKnobDemo />
+        <h2>Using image strip</h2>
+        <ImageStripControlDemo />
       </div>
 
       <div class="showcase">

@@ -2,13 +2,13 @@ import { createEffect, createSignal, splitProps } from 'solid-js';
 import { Control, ControlProps } from './Control';
 import { rangeFunctions } from './range';
 
-export type ImageKnobProps = Omit<ControlProps, 'children'> & {
+export type ImageStripControlProps = Omit<ControlProps, 'children'> & {
   imageSrc: string,
   numFrames: number,
   horizontal?: boolean
 }
 
-export function ImageKnob(allProps: ImageKnobProps) {
+export function ImageStripControl(allProps: ImageStripControlProps) {
   const [imageSize, setImageSize] = createSignal({ width: 0, height: 0 });
   const [props, controlProps] = splitProps(allProps, ['numFrames', 'horizontal', 'imageSrc']);
 
