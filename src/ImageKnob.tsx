@@ -8,7 +8,7 @@ export function ImageKnob(allProps: Omit<Props, 'children'> & { imageSrc: string
 
   const normalisedValue = () => rangeFunctions.toNormalised(controlProps.range, controlProps.value);
   const frameSize = () => imageSize().height / props.numFrames;
-  const imageOffset = () => Math.floor(normalisedValue() * (props.numFrames - 1)) * frameSize();
+  const imageOffset = () => Math.round(normalisedValue() * (props.numFrames - 1)) * frameSize();
 
   createEffect(() => {
     const img = new Image();

@@ -10,25 +10,6 @@ export type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<
   children: any;
 }
 
-export function createSmoothedValue(value: () => number, speed = 0.01) {
-  const [animatedValue, setAnimatedValue] = createSignal(value());
-
-  let target = value();
-  createEffect(() => {
-    target = value();
-    untrack(() => animate());
-  });
-
-  function animate() {
-    setAnimatedValue(v => v + (target - v) * speed);
-    if (Math.abs(target - animatedValue()) > 0.00001) {
-      requestAnimationFrame(animate);
-    }
-  }
-
-  return animatedValue;
-}
-
 export function Control(allProps: Props) {
   const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);

@@ -1,18 +1,36 @@
-// '../src' would be 'solid-knobs' in a real-life scenario
-import { rangeFunctions, RangeType, Control, Arc, Range, ContinuousRange, ValueInput, createFrequencyRange, createVolumeRange, ChoiceRange, Scale, ImageKnob, createSmoothedValue } from '../src';
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
-interface ControlProps {
+// '../src' would be 'solid-knobs' in a real-life scenario
+import { 
+  Arc,
+  ChoiceRange,
+  ContinuousRange,
+  Control,
+  createFrequencyRange,
+  createSmoothedValue,
+  createVolumeRange,
+  ImageKnob,
+  Range,
+  rangeFunctions,
+  RangeType,
+  Scale,
+  ValueInput
+} from '../src';
+
+interface DemoKnobProps {
   range: Range;
   defaultValue: number;
+  smoothed?: boolean;
 }
 
 // simple SVG knob showcasing how to use solid-knobs' primitives to build vectorised controls
-function SVGKnob(props: ControlProps) {
+function SVGKnobDemo(props: DemoKnobProps) {
   const [value, setValue] = createSignal(props.defaultValue);
   
   const normalisedValue = () => rangeFunctions.toNormalised(props.range, value());
+
+  const smoothedValue = createSmoothedValue(normalisedValue);
 
   const baseAngle = 135;
   return (
@@ -37,70 +55,50 @@ function SVGKnob(props: ControlProps) {
             y={50}
             radius={38}
             startAngle={props.range.type === RangeType.Continuous && props.range.bipolar ? 0 : -baseAngle}
-            endAngle={-baseAngle + baseAngle * 2 * normalisedValue()}
+            endAngle={-baseAngle + baseAngle * 2 * (props.smoothed ? smoothedValue() : normalisedValue())}
             stroke="black"
             stroke-width={10} />
         </svg>
       </Control>
-      <ValueInput class="value-input" range={props.range} value={value()} onChange={setValue} />
+      <ValueInput
+        class="value-input"
+        range={props.range}
+        value={value()}
+        onChange={setValue} />
     </>
   );
 }
 
-const steppedRange: ContinuousRange = {
-  type: RangeType.Continuous,
-  start: 1,
-  end: 11,
-  step: 1,
-  valueToString: v => String(Math.round(v))
-};
+function ImageKnobDemo() {
+  const [value, setValue] = createSignal(0.5);
 
-const snappingRange: ContinuousRange = {
-  type: RangeType.Continuous,
-  start: -50,
-  end: 50,
-  bipolar: true,
-  snap: [0, 10, 25, 40]
-};
+  const range: ContinuousRange = {
+    type: RangeType.Continuous,
+    start: 0,
+    end: 1,
+    valueToString: v => v.toFixed(2)
+  };
 
-const choiceRange: ChoiceRange = {
-  type: RangeType.Choice,
-  choices: [
-    { value: 0, label: 'LP 12dB' },
-    { value: 1, label: 'LP 24dB' },
-    { value: 2, label: 'HP 12dB' },
-    { value: 3, label: 'HP 24dB' },
-    { value: 4, label: 'BP 12dB' },
-    { value: 5, label: 'BP 24dB' }
-  ]
-};
-
-const exponentialScale: ContinuousRange = {
-  type: RangeType.Continuous,
-  start: 0,
-  end: 5,
-  scale: {
-    type: Scale.Exponential,
-    exp: 3
-  },
-  valueToString: v => {
-    if (v < 1) {
-      return Math.round(v * 1000) + ' ms';
-    }
-    return v.toFixed(2) + ' s';
-  }
-};
-
-const imageKnobRange: ContinuousRange = {
-  type: RangeType.Continuous,
-  start: 0,
-  end: 11
+  return (
+    <>
+      <ImageKnob
+        style="display: inline-block;"
+        value={value()}
+        defaultValue={0.5}
+        onChange={setValue}
+        range={range}
+        imageSrc={require('./knob.png')}
+        numFrames={79} />
+      <ValueInput
+        class="value-input"
+        value={value()}
+        onChange={setValue}
+        range={range} />
+    </>
+  );
 }
 
 function ExampleApp() {
-  const [imageKnobValue, setImageKnobValue] = createSignal(0.5);
-  const smoothedValue = createSmoothedValue(imageKnobValue, 0.01);
-
   return <>
     <h1>solid-knobs examples</h1>
 
@@ -112,44 +110,94 @@ function ExampleApp() {
     
     <div class="showcase-list">
       <div class="showcase">
-        <h2>Basic knob</h2>
-        <SVGKnob defaultValue={0.5} range={createVolumeRange()} />
+        <h2>Basic</h2>
+        <SVGKnobDemo
+          defaultValue={0.5}
+          range={createVolumeRange()} />
       </div>
 
       <div class="showcase">
-        <h2>Knob with stepped range</h2>
-        <SVGKnob defaultValue={7} range={steppedRange} />
+        <h2>With stepped range</h2>
+        <SVGKnobDemo
+          defaultValue={7}
+          range={{
+            type: RangeType.Continuous,
+            start: 1,
+            end: 11,
+            step: 1,
+            valueToString: v => String(Math.round(v))
+          }} />
       </div>
       
       <div class="showcase">
-        <h2>Knob with logarithmic scale</h2>
-        <SVGKnob defaultValue={1000} range={createFrequencyRange()} />
+        <h2>With logarithmic scale</h2>
+        <SVGKnobDemo
+          defaultValue={1000}
+          range={createFrequencyRange()} />
       </div>
       
       <div class="showcase">
-        <h2>Knob with exponential scale</h2>
-        <SVGKnob defaultValue={1.25} range={exponentialScale} />
+        <h2>With exponential scale</h2>
+        <SVGKnobDemo
+          defaultValue={1.25}
+          range={{
+            type: RangeType.Continuous,
+            start: 0,
+            end: 5,
+            scale: {
+              type: Scale.Exponential,
+              exp: 3
+            },
+            valueToString: v => {
+              if (v < 1) {
+                return Math.round(v * 1000) + ' ms';
+              }
+              return v.toFixed(2) + ' s';
+            }
+          }} />
       </div>
       
       <div class="showcase">
-        <h2>Knob that snaps to specific values</h2>
-        <SVGKnob defaultValue={10} range={snappingRange} />
+        <h2>Snapping to specific values</h2>
+        <SVGKnobDemo
+          defaultValue={10}
+          range={{
+            type: RangeType.Continuous,
+            start: -50,
+            end: 50,
+            bipolar: true,
+            snap: [0, 10, 25, 40]
+          }} />
       </div>
       
       <div class="showcase">
-        <h2>Knob with choices</h2>
-        <SVGKnob defaultValue={3} range={choiceRange} />
+        <h2>With discrete choices</h2>
+        <SVGKnobDemo
+          defaultValue={3}
+          range={{
+            type: RangeType.Choice,
+            choices: [
+              { value: 0, label: 'LP 12dB' },
+              { value: 1, label: 'LP 24dB' },
+              { value: 2, label: 'HP 12dB' },
+              { value: 3, label: 'HP 24dB' },
+              { value: 4, label: 'BP 12dB' },
+              { value: 5, label: 'BP 24dB' }
+            ]
+          }} />
       </div>
       
       <div class="showcase">
-        <h2>Knob using image-strip</h2>
-        <ImageKnob
-          style="display: inline-block;"
-          value={smoothedValue()}
-          onChange={setImageKnobValue}
-          range={imageKnobRange}
-          imageSrc={require('./knob.png')}
-          numFrames={79} />
+        <h2>Using image-strip</h2>
+        <ImageKnobDemo />
+      </div>
+
+      <div class="showcase">
+        <h2>With smoothed movement</h2>
+        <SVGKnobDemo
+          smoothed
+          defaultValue={0.5}
+          range={createVolumeRange()} />
       </div>
     </div>
   </>;
