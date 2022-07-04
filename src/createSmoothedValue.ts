@@ -1,6 +1,6 @@
 import { createEffect, createSignal, untrack } from 'solid-js';
 
-export function createSmoothedValue(value: () => number, speed = 1) {
+export function createSmoothedValue(value: () => number, speed = 1, threshold = 0.001) {
   const [animatedValue, setAnimatedValue] = createSignal(value());
 
   let target = 0;
@@ -22,8 +22,9 @@ export function createSmoothedValue(value: () => number, speed = 1) {
     const currentValue = animatedValue();
     const newValue = currentValue + (target - currentValue) * deltaTime / 40 * speed;
     setAnimatedValue(newValue);
-    if (Math.abs(target - newValue) < 0.00001) {
+    if (Math.abs(target - newValue) < threshold) {
       animating = false;
+      setAnimatedValue(target);
     } else {
       requestAnimationFrame(animate);
     }
