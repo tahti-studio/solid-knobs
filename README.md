@@ -2,7 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/solid-knobs.svg)](https://badge.fury.io/js/solid-knobs)
 
-This library provides a set of utilities for building user-friendly controls for audio parameters and the like. The utilities come without any visual styling, they only try to make setting up commonly needed features and behaviours easier. The included JSX components are written for SolidJS and have no external dependencies.
+This library provides a set of utilities for building user-friendly controls for audio parameters and the like.
+The utilities come without any visual styling, they only try to make setting up commonly needed features and behaviours easier.
+The included JSX components are written for SolidJS and have no external dependencies.
 
 Demo: https://tahti-studio.github.io/solid-knobs/
 
@@ -12,15 +14,18 @@ Demo: https://tahti-studio.github.io/solid-knobs/
 
 ## Docs
 
-Below is a reference of all the different utilities provided by `solid-knobs`. However, to get a feel for how they're actually used, please [take a look at the examples](examples/index.tsx). The examples are hosted at: https://tahti-studio.github.io/solid-knobs/
+Below is a reference of all the different utilities provided by `solid-knobs`.
+However, to get a feel for how they're actually used, please [take a look at the examples](examples/index.tsx).
+The examples are hosted at: https://tahti-studio.github.io/solid-knobs/
 
 ### Ranges
 
-A `Range` specifies the range, scale and UI behaviours of a controlled value. Currently there are two types of `Range`:
+A `Range` specifies the range, scale, and UI behaviours of a controlled value.
+Currently, there are two types of `Range`:
 
 #### ContinousRange
 
-The most common type of range used for numerical values that are continous (e.g. frequency, volume etc).
+The most common type of range that is used for continuous numerical values (e.g. frequency, volume, etc).
 
 ```ts
 interface ContinuousRange {
@@ -177,12 +182,12 @@ const volumeRange = createVolumeRange(0, 1.5);
 
 The `ParameterGestureHandler` component doesn't render anything itself, it simply wraps an existing element and makes it behave like a control by giving it the following abilities:
 
-- click and drag the element up/down to change the value
-- scroll on top of the element to change the value
-- hold shift while changing the value to change it more precisely
-- after focusing the element, the up/down/left/right arrow keys can be used to nudge the value by different increments
+- Click and drag the element up/down to change the value.
+- Scroll on top of the element to change the value.
+- Hold shift while changing the value to change it more precisely.
+- After focusing the element, the up/down/left/right arrow keys can be used to nudge the value by different increments.
 
-It also takes care of blocking user-selection on the page while dragging.
+It also takes care of blocking user selection on the page while dragging.
 
 ```ts
 interface ParameterGestureHandlerProps {
@@ -229,7 +234,8 @@ import { ParameterGestureHandler } from 'solid-knobs';
 
 ### Control (SolidJS component)
 
-The `Control` component implements a higher level control that covers most common use-cases and takes care of accessibility. It uses `ParameterGestureHandler` under the hood and you should probably use `Control` instead of `ParameterGestureHandler` for most cases.
+The `Control` component implements a higher-level control that covers the most common use cases and takes care of accessibility.
+It uses `ParameterGestureHandler` under the hood and you should probably use `Control` instead of `ParameterGestureHandler` for most cases.
 
 ```ts
 // Note that ControlProps extends the ParameterGestureHandlerProps defined above.
