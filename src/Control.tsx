@@ -1,17 +1,53 @@
 import { ParameterGestureHandler, ParameterGestureHandlerProps } from './ParameterGestureHandler';
-import { rangeFunctions } from './range/range';
+import { rangeFunctions } from './range';
 import { JSX, splitProps } from 'solid-js';
 
-export type ControlProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> & Omit<ParameterGestureHandlerProps, 'children'> & {
+/**
+ * @group Component Properties
+ */
+export interface ControlProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'>, Omit<ParameterGestureHandlerProps, 'children'> {
+  /**
+   * The label that should be used for the aria label (for accessibility).
+   */
   label?: string;
+
+  /**
+   * The default value.
+   */
   defaultValue?: number;
+
+  /**
+   * Called when starting the change gesture.
+   */
   onGestureStart?(e: MouseEvent | TouchEvent): void;
+
+  /**
+   * Called when ending the change gesture.
+   */
   onGestureEnd?(e: MouseEvent | TouchEvent): void;
+
   children: any;
 }
 
-export function Control(allProps: ControlProps) {
-  const [props, otherProps] = splitProps(allProps, ['children', 'label', 'defaultValue']);
+/**
+ * The `Control` component implements a higher-level control that covers the most common use cases and takes care of accessibility.
+ * It uses {@link ParameterGestureHandler} under the hood and you should probably use `Control` instead of {@link ParameterGestureHandler} for most cases.
+ * 
+ * @example
+ * ```tsx
+ * import { Control } from 'solid-knobs';
+ * 
+ * ...
+ * 
+ * <Control range={range} value={value()} onChange={setValue}>
+ *   // your custom control visualisation goes here
+ * </Control>
+ * ```
+ * 
+ * @group Components
+ */
+export function Control(props: ControlProps) {
+  const [_, otherProps] = splitProps(props, ['children', 'label', 'defaultValue']);
   const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
 
   const onGestureStart = (e: MouseEvent | TouchEvent) => {

@@ -1,3 +1,7 @@
+# v0.3.0
+- BREAKING: helper functions for creating ranges are now grouped in the `rangeCreators` namespace
+- move all documentation directly in the source as TSDoc and generate the Markdown reference automatically
+
 # v0.2.1
 - improve the performance of `createSmoothedValue()` and add an optional argument for defining a threshold for when the animation should be stopped
 

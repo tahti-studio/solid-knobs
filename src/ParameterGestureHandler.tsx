@@ -1,15 +1,46 @@
 import { createEffect, onCleanup } from 'solid-js';
-import { Range } from './range';
-import { rangeFunctions } from './range/range';
+import { Range, rangeFunctions } from './range';
 
+/**
+ * @group Component Properties
+ */
 export interface ParameterGestureHandlerProps {
   children: (ref: any) => any;
+
+  /**
+   * The un-normalised value.
+   */
   value: number,
+
+  /**
+   * Called with the un-normalised value.
+   */
   onChange?: (value: number) => void,
+
+  /**
+   * Called when starting the change gesture.
+   */
   onStart?: (value: number) => void,
+
+  /**
+   * Called when ending the change gesture.
+   */
   onEnd?: (value: number) => void,
+
+  /**
+   * The range of the value.
+   */
   range: Range,
+
+  /**
+   * The relative speed of the change gesture. The default is 1.
+   */
   speed?: number,
+
+  /**
+   * Whether the cursor should be hidden while changing the value.
+   * Note! This might result in constant annoying pop-ups in certain browsers.
+   */
   hideCursor?: boolean
 }
 
@@ -20,6 +51,33 @@ window.addEventListener('selectstart', e => {
   }
 });
 
+/**
+ * The `ParameterGestureHandler` component doesn't render anything itself, it simply wraps an existing element and makes it behave like a control by giving it the following abilities:
+ * 
+ * - Click and drag the element up/down to change the value.
+ * - Scroll on top of the element to change the value.
+ * - Hold shift while changing the value to change it more precisely.
+ * - After focusing the element, the up/down/left/right arrow keys can be used to nudge the value by different increments.
+ * 
+ * It also takes care of blocking user selection on the page while dragging.
+ * 
+ * @example
+ * ```jsx
+ * import { ParameterGestureHandler } from 'solid-knobs';
+ * 
+ * ...
+ * 
+ * <ParameterGestureHandler {...props}>
+ *  {ref =>
+ *    <div ref={ref}>
+ *      // custom visualisation code
+ *    </div>
+ *  }
+ * </ParameterGestureHandler>
+ * ```
+ * 
+ * @group Components
+ */
 export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   let element: HTMLElement | null = null;
   let isDragging: boolean = false;

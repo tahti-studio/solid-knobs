@@ -6,9 +6,8 @@ import {
   Arc,
   ContinuousRange,
   Control,
-  createFrequencyRange,
+  rangeCreators,
   createSmoothedValue,
-  createVolumeRange,
   ImageStripControl,
   Range,
   rangeFunctions,
@@ -111,7 +110,7 @@ function ExampleApp() {
         <h2>Basic</h2>
         <SVGKnobDemo
           defaultValue={0.5}
-          range={createVolumeRange()} />
+          range={rangeCreators.createVolumeRange()} />
       </div>
 
       <div class="showcase">
@@ -131,7 +130,7 @@ function ExampleApp() {
         <h2>With logarithmic scale</h2>
         <SVGKnobDemo
           defaultValue={1000}
-          range={createFrequencyRange()} />
+          range={rangeCreators.createFrequencyRange()} />
       </div>
       
       <div class="showcase">
@@ -195,7 +194,7 @@ function ExampleApp() {
         <SVGKnobDemo
           smoothed
           defaultValue={0.5}
-          range={createVolumeRange()} />
+          range={rangeCreators.createVolumeRange()} />
       </div>
     </div>
   </>;

@@ -30,20 +30,43 @@ function describeArc(x: number, y: number, radius: number, startAngle: number, e
   return d;
 }
 
-interface ArcProps extends JSX.PathSVGAttributes<SVGPathElement> {
+/**
+ * @group Component Properties
+ */
+export interface ArcProps extends JSX.PathSVGAttributes<SVGPathElement> {
+  /**
+   * The X coordinate of the arc's center.
+   */
   x: number;
+
+  /**
+   * The Y coordinate of the arc's center.
+   */
   y: number;
+
+  /**
+   * The radius of the arc.
+   */
   radius: number;
+
+  /**
+   * The start angle of the arc in degrees.
+   */
   startAngle: number;
+
+  /**
+   * The end angle of the arc in degrees.
+   */
   endAngle: number;
 }
 
 /**
- * Returns an SVG path element that renders an arc segment.
- * The `startAngle` and `endAngle` arguments are expressed in degrees.
+ * Arc is a simple utility component that returns a `<path />` element for drawing an arc segment in an SVG element.
+ * 
+ * @group Components
  */
-export function Arc(allProps: ArcProps) {
-  const [props, pathProps] = splitProps(allProps, ['x', 'y', 'radius', 'startAngle', 'endAngle']);
+export function Arc(props: ArcProps) {
+  const [_, pathProps] = splitProps(props, ['x', 'y', 'radius', 'startAngle', 'endAngle']);
   return (
     <path
       d={describeArc(props.x, props.y, props.radius, props.startAngle, props.endAngle)}

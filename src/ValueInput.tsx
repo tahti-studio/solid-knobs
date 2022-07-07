@@ -1,15 +1,33 @@
 import { JSX, splitProps } from "solid-js";
-import { Range } from "./range";
-import { rangeFunctions } from "./range/range";
+import { Range, rangeFunctions } from "./range";
 
+/**
+ * @group Component Properties
+ */
 export interface ValueInputProps extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+  /**
+   * Called when the value is changed by the user.
+   */
   onChange(value: number): void;
+
+  /**
+   * The range of the value.
+   */
   range: Range;
+
+  /**
+   * The un-normalised value.
+   */
   value: number;
 }
 
-export function ValueInput(allProps: ValueInputProps) {
-  const [props, inputProps] = splitProps(allProps, ['onChange', 'range', 'value']);
+/**
+ * A glorified input element that formats the value according to a range and properly handles user input.
+ * 
+ * @group Components
+ */
+export function ValueInput(props: ValueInputProps): JSX.Element {
+  const [_, inputProps] = splitProps(props, ['onChange', 'range', 'value']);
 
   return (
     <input
