@@ -1,6 +1,6 @@
 {
   "name": "solid-knobs",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Primitives for building user-friendly controls with SolidJS.",
   "main": "dist/index.js",
   "scripts": {
