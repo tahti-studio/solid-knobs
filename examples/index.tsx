@@ -14,7 +14,7 @@ import {
   RangeType,
   Scale,
   ValueInput
-} from '../src';
+} from '..';
 
 interface DemoKnobProps {
   range: Range;

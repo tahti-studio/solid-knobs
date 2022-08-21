@@ -30,7 +30,7 @@ module.exports = {
     rules: [
       {
         test: /\.(t|j)sx?$/,
-        exclude: /(bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
