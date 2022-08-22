@@ -32,7 +32,11 @@ export function ValueInput(props: ValueInputProps): JSX.Element {
   return (
     <input
       type="text"
-      onFocus={(e: any) => e.target.select()}
+      onMouseUp={(e: any) => {
+        if (e.target.selectionStart === e.target.selectionEnd) {
+          e.target.select();
+        }
+      }}
       onKeyDown={(e: any) => {
         if (e.key === 'Enter') {
           e.preventDefault();
