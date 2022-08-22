@@ -85,7 +85,6 @@ export function Control(props: ControlProps) {
           {...divProps}
           onMouseDown={onGestureStart}
           onTouchStart={onGestureStart}
-          onClick={onGestureStart}>
           {props.children}
         </div>
       }
