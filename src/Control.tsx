@@ -84,7 +84,7 @@ export function Control(props: ControlProps) {
           aria-valuetext={rangeFunctions.toString(gestureProps.range, gestureProps.value)}
           {...divProps}
           onMouseDown={onGestureStart}
-          onTouchStart={onGestureStart}
+          onTouchStart={onGestureStart}>
           {props.children}
         </div>
       }
