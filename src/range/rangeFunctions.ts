@@ -53,7 +53,7 @@ export function fromNormalised(range: Range, normalisedValue: number): number {
 export function fromString(range: Range, value: number, unit: string): number {
   switch (range.type) {
     case RangeType.Choice: {
-      return value;
+      return range.choices.find(c => c.label.match(new RegExp(unit, 'gi')))?.value || 0;
     }
     case RangeType.Continuous: {
       return range.stringToValue ? range.stringToValue(value, unit) : Number(value);
