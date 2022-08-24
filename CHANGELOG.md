@@ -1,3 +1,13 @@
+# v0.4.1
+- fix scroll whell doing nothing when used on controls with stepped ranges
+
+# v0.4.0
+- breaking change: remove duplicate onClick triggering onGestureStart in Control component (thanks @eulervoid!)
+- handle selecting all text in the ValueInput component more robustly
+
+# v0.3.1
+- properly build the distributed code with Rollup
+
 # v0.3.0
 - BREAKING: helper functions for creating ranges are now grouped in the `rangeCreators` namespace
 - move all documentation directly in the source as TSDoc and generate the Markdown reference automatically
