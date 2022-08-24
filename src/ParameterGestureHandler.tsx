@@ -82,13 +82,13 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   let element: HTMLElement | null = null;
   let isDragging: boolean = false;
   let valueOnDragStart: number = 0;
+  let valueOnWheelStart = 0;
   let dragValue: number = 0;
   let dragStartValue: number = 0;
   let value: number = 0;
 
   const change = (newValue: number, snap: boolean) => {
     if (props.onChange) {
-
       if (newValue !== value) {
         newValue = rangeFunctions.fromNormalised(props.range, newValue);
         if (snap) {
@@ -152,10 +152,24 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
     }
   }
 
+  let isWheeling = false;
+  let wheelingTimeout: NodeJS.Timeout;
   const wheel = (e: WheelEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    change(value - e.deltaY / 2000, false);
+
+    if (!isWheeling) {
+      valueOnWheelStart = value;
+      isWheeling = true;
+    }
+    valueOnWheelStart -= e.deltaY / 1500;
+
+    change(valueOnWheelStart, true);
+
+    clearTimeout(wheelingTimeout);
+    wheelingTimeout = setTimeout(() => {
+      isWheeling = false;
+    }, 500);
   }
 
   const touchStart = (e: TouchEvent) => {
