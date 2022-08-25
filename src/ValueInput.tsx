@@ -1,5 +1,5 @@
 import { JSX, splitProps } from "solid-js";
-import { Range, rangeFunctions } from "./range";
+import { Range, rangeFunctions, RangeType } from "./range";
 
 /**
  * @group Component Properties
@@ -41,11 +41,24 @@ export function ValueInput(props: ValueInputProps): JSX.Element {
         if (e.key === 'Enter') {
           e.preventDefault();
           e.stopPropagation();
-          const number = e.target.value.replace(/[^0-9\.\-]/g, '');
-          const unit = e.target.value.replace(number, '');
+
+          let number, unit;
+          if (props.range.type === RangeType.Choice) {
+            number = 0;
+            unit = e.target.value;
+          } else {
+            const match = e.target.value.match(/^\-?[0-9]+(\.[0-9]+)?/g, '');
+            if (!match) {
+              return;
+            }
+            number = match[0];
+            unit = e.target.value.replace(number, '');
+            console.log(number, unit);
+          }
           props.onChange(
             rangeFunctions.limit(props.range, rangeFunctions.fromString(props.range, +number, unit))
           );
+          e.target.value = rangeFunctions.toString(props.range, props.value);
           e.target.select();
         }
       }}
