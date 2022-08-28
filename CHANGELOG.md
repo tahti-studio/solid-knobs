@@ -1,5 +1,6 @@
 # v0.4.1
-- fix scroll whell doing nothing when used on controls with stepped ranges
+- fix scroll wheel doing nothing when used on controls with stepped ranges
+- improve parsing values from `<ValueInput>`
 
 # v0.4.0
 - breaking change: remove duplicate onClick triggering onGestureStart in Control component (thanks @eulervoid!)
