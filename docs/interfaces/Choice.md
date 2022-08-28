@@ -22,7 +22,7 @@ The numerical value of the choice.
 
 #### Defined in
 
-[range/range.ts:120](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/range/range.ts#L120)
+[range/range.ts:120](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L120)
 
 ___
 
@@ -34,7 +34,7 @@ The textual (user-friendly) representation of the choice.
 
 #### Defined in
 
-[range/range.ts:125](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/range/range.ts#L125)
+[range/range.ts:125](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L125)
 
 ___
 
@@ -46,4 +46,4 @@ Additional free-form data.
 
 #### Defined in
 
-[range/range.ts:130](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/range/range.ts#L130)
+[range/range.ts:130](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L130)

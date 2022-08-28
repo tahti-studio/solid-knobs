@@ -20,7 +20,7 @@ Currently the only possible types are `Continuous` and `Choice`.
 
 #### Defined in
 
-[range/range.ts:16](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/range/range.ts#L16)
+[range/range.ts:16](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L16)
 
 ___
 
@@ -30,4 +30,4 @@ ___
 
 #### Defined in
 
-[range/range.ts:16](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/range/range.ts#L16)
+[range/range.ts:16](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L16)

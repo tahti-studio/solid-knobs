@@ -47,7 +47,7 @@ The range of the value.
 
 #### Defined in
 
-[ValueInput.tsx:16](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ValueInput.tsx#L16)
+[ValueInput.tsx:16](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ValueInput.tsx#L16)
 
 ___
 
@@ -59,4 +59,4 @@ The un-normalised value.
 
 #### Defined in
 
-[ValueInput.tsx:21](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ValueInput.tsx#L21)
+[ValueInput.tsx:21](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ValueInput.tsx#L21)

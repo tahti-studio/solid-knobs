@@ -44,7 +44,7 @@ Omit.label
 
 #### Defined in
 
-[Control.tsx:12](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/Control.tsx#L12)
+[Control.tsx:12](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Control.tsx#L12)
 
 ___
 
@@ -60,7 +60,7 @@ Omit.defaultValue
 
 #### Defined in
 
-[Control.tsx:17](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/Control.tsx#L17)
+[Control.tsx:17](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Control.tsx#L17)
 
 ___
 
@@ -72,7 +72,7 @@ The path to the image strip to use.
 
 #### Defined in
 
-[ImageStripControl.tsx:12](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ImageStripControl.tsx#L12)
+[ImageStripControl.tsx:12](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ImageStripControl.tsx#L12)
 
 ___
 
@@ -84,7 +84,7 @@ The number of frames in the image strip.
 
 #### Defined in
 
-[ImageStripControl.tsx:17](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ImageStripControl.tsx#L17)
+[ImageStripControl.tsx:17](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ImageStripControl.tsx#L17)
 
 ___
 
@@ -96,7 +96,7 @@ Set to true if the image strip is laid out horizontally. Will be interpreted as 
 
 #### Defined in
 
-[ImageStripControl.tsx:22](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ImageStripControl.tsx#L22)
+[ImageStripControl.tsx:22](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ImageStripControl.tsx#L22)
 
 ___
 
@@ -112,7 +112,7 @@ Omit.value
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L13)
+[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L13)
 
 ___
 
@@ -142,7 +142,7 @@ Omit.onChange
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L18)
+[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L18)
 
 ___
 
@@ -172,7 +172,7 @@ Omit.onStart
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L23)
+[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L23)
 
 ___
 
@@ -202,7 +202,7 @@ Omit.onEnd
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L28)
+[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L28)
 
 ___
 
@@ -218,7 +218,7 @@ Omit.range
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L33)
+[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L33)
 
 ___
 
@@ -234,7 +234,7 @@ Omit.speed
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L38)
+[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L38)
 
 ___
 
@@ -251,7 +251,7 @@ Omit.hideCursor
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-knobs/blob/4144996/src/ParameterGestureHandler.tsx#L44)
+[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L44)
 
 ## Methods
 
