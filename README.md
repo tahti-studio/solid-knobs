@@ -2,8 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/solid-knobs.svg)](https://badge.fury.io/js/solid-knobs)
 
-This library provides a set of utilities for building user-friendly controls for audio parameters and the like.
-The utilities come without any visual styling, they only try to make setting up commonly needed features and behaviours easier.
+`solid-knobs` provides various utilities for building user-friendly components for controlling audio parameters and the like.
+These utilities come without any CSS; they only help with setting up commonly needed functionalities quickly and easily.
 The included JSX components are written for SolidJS and have no external dependencies.
 
 Demo: https://tahti-studio.github.io/solid-knobs/
@@ -15,8 +15,12 @@ Demo: https://tahti-studio.github.io/solid-knobs/
 ## Docs
 
 The generated docs are located in the [`docs` folder](docs).
-However, to get a feel for how all the different parts are actually used, please [take a look at the examples](examples/index.tsx).
+However, to get a feel for how all the different parts are used, please [take a look at the examples](examples/index.tsx).
 The examples are also hosted at: https://tahti-studio.github.io/solid-knobs/
+
+## Projects using solid-knobs
+
+- [tahti.studio – a groovebox in the browser](https://tahti.studio/)
 
 ## Running the examples locally
 1. Clone.
