@@ -147,7 +147,10 @@ export function nudge(range: Range, value: number, steps: number): number {
 export function getStart(range: Range) {
   switch (range.type) {
     case RangeType.Choice: {
-      return 0;
+      if (range.choices.length === 0) {
+        throw new Error(`Can't get the start value of an empty choice range.`);
+      }
+      return range.choices[0].value;
     }
     case RangeType.Continuous: {
       return range.start;
@@ -158,7 +161,10 @@ export function getStart(range: Range) {
 export function getEnd(range: Range) {
   switch (range.type) {
     case RangeType.Choice: {
-      return range.choices.length - 1;
+      if (range.choices.length === 0) {
+        throw new Error(`Can't get the end value of an empty choice range.`);
+      }
+      return range.choices[range.choices.length - 1].value;
     }
     case RangeType.Continuous: {
       return range.end;
