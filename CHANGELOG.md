@@ -1,4 +1,4 @@
-# v0.4.1
+# v0.4.2
 - fix scroll wheel doing nothing when used on controls with stepped ranges
 - improve parsing values from `<ValueInput>`
 
