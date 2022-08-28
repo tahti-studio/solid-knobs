@@ -53,7 +53,6 @@ export function ValueInput(props: ValueInputProps): JSX.Element {
             }
             number = match[0];
             unit = e.target.value.replace(number, '');
-            console.log(number, unit);
           }
           props.onChange(
             rangeFunctions.limit(props.range, rangeFunctions.fromString(props.range, +number, unit))
