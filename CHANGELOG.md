@@ -1,3 +1,6 @@
+# v0.4.3
+- the `getStart` and `getEnd` functions now work properly with choice ranges
+
 # v0.4.2
 - fix scroll wheel doing nothing when used on controls with stepped ranges
 - improve parsing values from `<ValueInput>`
