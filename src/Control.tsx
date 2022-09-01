@@ -55,13 +55,15 @@ export function Control(props: ControlProps) {
       divProps.onGestureStart(e);
     }
     
-    const onGestureEnd = (e: MouseEvent) => {
+    const onGestureEnd = (e: MouseEvent | TouchEvent) => {
       if (divProps.onGestureEnd instanceof Function)
         divProps.onGestureEnd && divProps.onGestureEnd(e);
         
       window.removeEventListener('mouseup', onGestureEnd);
+      window.removeEventListener('touchend', onGestureEnd);
     };
     window.addEventListener('mouseup', onGestureEnd);
+    window.addEventListener('touchend', onGestureEnd);
   }
 
   const resetToDefault = () => {
