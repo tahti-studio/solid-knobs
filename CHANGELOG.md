@@ -1,3 +1,8 @@
+# v0.4.4
+- add `touchend` event listener to trigger `onGestureEnd` (thanks @eulervoid!)
+- improve string to value conversion for choice ranges
+- avoid selecting `<ValueInput>` text when releasing the mouse on top the element when it was pressed down elsewhere
+
 # v0.4.3
 - the `getStart` and `getEnd` functions now work properly with choice ranges
 
@@ -6,14 +11,14 @@
 - improve parsing values from `<ValueInput>`
 
 # v0.4.0
-- breaking change: remove duplicate onClick triggering onGestureStart in Control component (thanks @eulervoid!)
+- breaking change: remove duplicate `onClick` triggering `onGestureStart` in Control component (thanks @eulervoid!)
 - handle selecting all text in the ValueInput component more robustly
 
 # v0.3.1
 - properly build the distributed code with Rollup
 
 # v0.3.0
-- BREAKING: helper functions for creating ranges are now grouped in the `rangeCreators` namespace
+- breaking change: helper functions for creating ranges are now grouped in the `rangeCreators` namespace
 - move all documentation directly in the source as TSDoc and generate the Markdown reference automatically
 
 # v0.2.1
