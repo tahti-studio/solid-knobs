@@ -29,12 +29,16 @@ export interface ValueInputProps extends Omit<JSX.InputHTMLAttributes<HTMLInputE
 export function ValueInput(props: ValueInputProps): JSX.Element {
   const [_, inputProps] = splitProps(props, ['onChange', 'range', 'value']);
 
+  let isMouseDown = false;
+
   return (
     <input
       type="text"
+      onMouseDown={() => isMouseDown = true}
       onMouseUp={(e: any) => {
-        if (e.target.selectionStart === e.target.selectionEnd) {
+        if (isMouseDown && e.target.selectionStart === e.target.selectionEnd) {
           e.target.select();
+          isMouseDown = false;
         }
       }}
       onKeyDown={(e: any) => {
@@ -63,6 +67,7 @@ export function ValueInput(props: ValueInputProps): JSX.Element {
       }}
       onBlur={(e: any) => {
         e.target.value = rangeFunctions.toString(props.range, props.value);
+        isMouseDown = false;
       }}
       value={rangeFunctions.toString(props.range, props.value)}
       {...inputProps} />
