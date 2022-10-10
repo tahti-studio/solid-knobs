@@ -206,9 +206,9 @@ function inverseInterpolate(range: ContinuousRange, value: number) {
 
 function limitToStep (range: ContinuousRange, value: number) {
   if (range.step) {
-    return Math.round(value / range.step) * range.step;
+    value = Math.round(value / range.step) * range.step;
   }
-  return value;
+  return limit(range, value);
 }
 
 /**
