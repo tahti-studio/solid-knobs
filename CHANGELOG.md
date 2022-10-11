@@ -1,3 +1,6 @@
+# v0.4.5
+- fix stepped ranges not respecting range bounds
+
 # v0.4.4
 - add `touchend` event listener to trigger `onGestureEnd` (thanks @eulervoid!)
 - improve string to value conversion for choice ranges
