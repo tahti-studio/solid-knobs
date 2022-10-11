@@ -40,7 +40,7 @@ The label that should be used for the aria label (for accessibility).
 
 #### Defined in
 
-[Control.tsx:12](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Control.tsx#L12)
+[Control.tsx:12](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Control.tsx#L12)
 
 ___
 
@@ -52,7 +52,7 @@ The default value.
 
 #### Defined in
 
-[Control.tsx:17](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Control.tsx#L17)
+[Control.tsx:17](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Control.tsx#L17)
 
 ___
 
@@ -66,7 +66,7 @@ Omit.children
 
 #### Defined in
 
-[Control.tsx:29](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Control.tsx#L29)
+[Control.tsx:29](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Control.tsx#L29)
 
 ___
 
@@ -82,7 +82,7 @@ Omit.value
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L13)
+[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L13)
 
 ___
 
@@ -112,7 +112,7 @@ Omit.onChange
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L18)
+[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L18)
 
 ___
 
@@ -142,7 +142,7 @@ Omit.onStart
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L23)
+[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L23)
 
 ___
 
@@ -172,7 +172,7 @@ Omit.onEnd
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L28)
+[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L28)
 
 ___
 
@@ -188,7 +188,7 @@ Omit.range
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L33)
+[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L33)
 
 ___
 
@@ -204,7 +204,7 @@ Omit.speed
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L38)
+[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L38)
 
 ___
 
@@ -221,7 +221,7 @@ Omit.hideCursor
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L44)
+[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L44)
 
 ## Methods
 

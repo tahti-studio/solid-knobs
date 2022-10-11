@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:8](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L8)
+[ParameterGestureHandler.tsx:8](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L8)
 
 ___
 
@@ -49,7 +49,7 @@ The un-normalised value.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L13)
+[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L13)
 
 ___
 
@@ -75,7 +75,7 @@ Called with the un-normalised value.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L18)
+[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L18)
 
 ___
 
@@ -101,7 +101,7 @@ Called when starting the change gesture.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L23)
+[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L23)
 
 ___
 
@@ -127,7 +127,7 @@ Called when ending the change gesture.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L28)
+[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L28)
 
 ___
 
@@ -139,7 +139,7 @@ The range of the value.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L33)
+[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L33)
 
 ___
 
@@ -151,7 +151,7 @@ The relative speed of the change gesture. The default is 1.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L38)
+[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L38)
 
 ___
 
@@ -164,4 +164,4 @@ Note! This might result in constant annoying pop-ups in certain browsers.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/ParameterGestureHandler.tsx#L44)
+[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L44)

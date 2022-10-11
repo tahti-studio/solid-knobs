@@ -29,7 +29,7 @@ The type of a ContinuousRange is always RangeType.Continuous.
 
 #### Defined in
 
-[range/range.ts:27](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L27)
+[range/range.ts:27](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L27)
 
 ___
 
@@ -41,7 +41,7 @@ The start value of the range.
 
 #### Defined in
 
-[range/range.ts:32](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L32)
+[range/range.ts:32](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L32)
 
 ___
 
@@ -53,7 +53,7 @@ The end value of the range.
 
 #### Defined in
 
-[range/range.ts:37](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L37)
+[range/range.ts:37](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L37)
 
 ___
 
@@ -65,7 +65,7 @@ Whether the range is a bipolar one.
 
 #### Defined in
 
-[range/range.ts:42](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L42)
+[range/range.ts:42](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L42)
 
 ___
 
@@ -92,7 +92,7 @@ A function for converting a value with a certain unit to a value in the range.
 
 #### Defined in
 
-[range/range.ts:47](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L47)
+[range/range.ts:47](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L47)
 
 ___
 
@@ -118,7 +118,7 @@ A function for formatting a value of this range as a string.
 
 #### Defined in
 
-[range/range.ts:52](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L52)
+[range/range.ts:52](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L52)
 
 ___
 
@@ -130,7 +130,7 @@ The scaling of the range defines how the value is controlled in a UI. The defaul
 
 #### Defined in
 
-[range/range.ts:57](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L57)
+[range/range.ts:57](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L57)
 
 ___
 
@@ -143,7 +143,7 @@ Note! Always provide these values from smallest to largest.
 
 #### Defined in
 
-[range/range.ts:70](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L70)
+[range/range.ts:70](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L70)
 
 ___
 
@@ -155,7 +155,7 @@ The step between values. If you want a range that allows only integer values, se
 
 #### Defined in
 
-[range/range.ts:75](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L75)
+[range/range.ts:75](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L75)
 
 ___
 
@@ -167,4 +167,4 @@ How far away a value has to be from a snap point for it to snap.
 
 #### Defined in
 
-[range/range.ts:80](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L80)
+[range/range.ts:80](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L80)

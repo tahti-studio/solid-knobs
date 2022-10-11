@@ -209,7 +209,7 @@ There are two types of range: [ContinuousRange](interfaces/ContinuousRange.md) a
 
 #### Defined in
 
-[range/range.ts:8](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L8)
+[range/range.ts:8](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L8)
 
 ___
 
@@ -220,7 +220,7 @@ Currently the only possible types are `Continuous` and `Choice`.
 
 #### Defined in
 
-[range/range.ts:16](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L16)
+[range/range.ts:16](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L16)
 
 • **ContinuousRange**: `Object`
 
@@ -228,7 +228,7 @@ The most common type of range that is used for continuous numerical values (e.g.
 
 #### Defined in
 
-[range/range.ts:23](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L23)
+[range/range.ts:23](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L23)
 
 • **Scale**: `Object`
 
@@ -236,7 +236,7 @@ The scaling of a [ContinuousRange](interfaces/ContinuousRange.md).
 
 #### Defined in
 
-[range/range.ts:88](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L88)
+[range/range.ts:88](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L88)
 
 • **ChoiceRange**: `Object`
 
@@ -244,7 +244,7 @@ A range that represents a finite number of choices with textual labels (think en
 
 #### Defined in
 
-[range/range.ts:99](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L99)
+[range/range.ts:99](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L99)
 
 • **Choice**: `Object`
 
@@ -252,4 +252,4 @@ Used by [ChoiceRange](interfaces/ChoiceRange.md).
 
 #### Defined in
 
-[range/range.ts:116](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/range/range.ts#L116)
+[range/range.ts:116](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L116)

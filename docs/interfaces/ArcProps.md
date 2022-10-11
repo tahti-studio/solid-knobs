@@ -28,7 +28,7 @@ The X coordinate of the arc's center.
 
 #### Defined in
 
-[Arc.tsx:40](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Arc.tsx#L40)
+[Arc.tsx:40](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Arc.tsx#L40)
 
 ___
 
@@ -40,7 +40,7 @@ The Y coordinate of the arc's center.
 
 #### Defined in
 
-[Arc.tsx:45](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Arc.tsx#L45)
+[Arc.tsx:45](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Arc.tsx#L45)
 
 ___
 
@@ -52,7 +52,7 @@ The radius of the arc.
 
 #### Defined in
 
-[Arc.tsx:50](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Arc.tsx#L50)
+[Arc.tsx:50](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Arc.tsx#L50)
 
 ___
 
@@ -64,7 +64,7 @@ The start angle of the arc in degrees.
 
 #### Defined in
 
-[Arc.tsx:55](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Arc.tsx#L55)
+[Arc.tsx:55](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Arc.tsx#L55)
 
 ___
 
@@ -76,4 +76,4 @@ The end angle of the arc in degrees.
 
 #### Defined in
 
-[Arc.tsx:60](https://github.com/tahti-studio/solid-parameter-controls/blob/20a2445/src/Arc.tsx#L60)
+[Arc.tsx:60](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/Arc.tsx#L60)
