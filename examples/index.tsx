@@ -14,7 +14,7 @@ import {
   RangeType,
   Scale,
   ValueInput
-} from '..';
+} from '../src';
 
 interface DemoKnobProps {
   range: Range;
@@ -37,6 +37,8 @@ function SVGKnobDemo(props: DemoKnobProps) {
         defaultValue={props.defaultValue}
         range={props.range}
         value={value()}
+        onGestureStart={() => console.log('Started change gesture.')}
+        onGestureEnd={() => console.log('Ended change gesture.')}
         onChange={setValue}>
         <svg style="width: 5rem;" viewBox="0 0 100 100">
           <circle cx={50} cy={50} r={25} fill="#555" />

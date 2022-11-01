@@ -27,7 +27,7 @@ The examples are also hosted at: https://tahti-studio.github.io/solid-knobs/
 2. `npm install`
 3. `cd examples`
 4. `npm install`
-5. `npm run watch`
+5. `npm run dev`
 
 ## Contributing
 

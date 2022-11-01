@@ -1,5 +1,4 @@
-import { createEffect, onCleanup } from 'solid-js';
-import { Range, rangeFunctions } from './range';
+import { onCleanup } from 'solid-js';
 
 /**
  * @group Component Properties
@@ -8,29 +7,34 @@ export interface ParameterGestureHandlerProps {
   children: (ref: any) => any;
 
   /**
-   * The un-normalised value.
+   * The normalised value.
    */
   value: number,
 
   /**
-   * Called with the un-normalised value.
+   * Called with the normalised value when it changes.
+   * 
+   * @param value The normalised value (ranging between 0 and 1).
+   * @param fine `true` when the value is adjusted more finely (e.g. when shift is pressed).
    */
-  onChange?: (value: number) => void,
+  onChange?: (value: number, fine: boolean) => void,
+
+  /**
+   * Called when the value is nudged forward or backward with the arrows keys.
+   * 
+   * @param amount The size of the nudge. Can either be -1 or 1 for a small nudge, or -10 or 10 for a big nudge.
+   */
+  onNudge?: (amount: number) => void,
 
   /**
    * Called when starting the change gesture.
    */
-  onStart?: (value: number) => void,
+  onStart?: (e: MouseEvent | TouchEvent, value: number) => void,
 
   /**
    * Called when ending the change gesture.
    */
-  onEnd?: (value: number) => void,
-
-  /**
-   * The range of the value.
-   */
-  range: Range,
+  onEnd?: (e: MouseEvent | TouchEvent, value: number) => void,
 
   /**
    * The relative speed of the change gesture. The default is 1.
@@ -85,16 +89,11 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   let valueOnWheelStart = 0;
   let dragValue: number = 0;
   let dragStartValue: number = 0;
-  let value: number = 0;
 
-  const change = (newValue: number, snap: boolean) => {
+  const change = (newValue: number, fine: boolean) => {
     if (props.onChange) {
-      if (newValue !== value) {
-        newValue = rangeFunctions.fromNormalised(props.range, newValue);
-        if (snap) {
-          newValue = rangeFunctions.snap(props.range, newValue);
-        }
-        props.onChange(newValue);
+      if (newValue !== props.value) {
+        props.onChange(newValue, fine);
       }
     }
   };
@@ -107,18 +106,18 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
       dragValue -= e.movementY;
       const speedMultiplier = e.shiftKey ? 0.1 : 1;
       const delta = speedMultiplier * (props.speed || 1) * dragValue / 250;
-      change(valueOnDragStart + delta, !e.shiftKey);
+      change(valueOnDragStart + delta, e.shiftKey);
     }
   }
 
-  const onMouseUp = () => {
+  const onMouseUp = (e: MouseEvent) => {
     if (!isDragging)
       return;
 
     numActiveGestures--;
       
     if (props.onEnd) {
-      props.onEnd(props.value);
+      props.onEnd(e, props.value);
     }
     isDragging = false;
     if (props.hideCursor) {
@@ -128,12 +127,12 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
 
   const onMouseDown = (e: MouseEvent) => {
     if (props.onStart) {
-      props.onStart(props.value);
+      props.onStart(e, props.value);
     }
 
     numActiveGestures++;
 
-    valueOnDragStart = value;
+    valueOnDragStart = props.value;
     dragValue = 0;
     dragStartValue = 0;
     isDragging = true;
@@ -141,13 +140,13 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
 
   const keyDown = (e: KeyboardEvent) => {
     if (e.shiftKey) {
-      valueOnDragStart = value;
+      valueOnDragStart = props.value;
     }
   }
 
   const keyUp = () => {
     if (isDragging) {
-      valueOnDragStart = value;
+      valueOnDragStart = props.value;
       dragValue = dragStartValue;
     }
   }
@@ -159,12 +158,12 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
     e.preventDefault();
 
     if (!isWheeling) {
-      valueOnWheelStart = value;
+      valueOnWheelStart = props.value;
       isWheeling = true;
     }
     valueOnWheelStart -= e.deltaY / 1500;
 
-    change(valueOnWheelStart, true);
+    change(valueOnWheelStart, false);
 
     clearTimeout(wheelingTimeout);
     wheelingTimeout = setTimeout(() => {
@@ -174,12 +173,12 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
 
   const touchStart = (e: TouchEvent) => {
     if (props.onStart) {
-      props.onStart(props.value);
+      props.onStart(e, props.value);
     }
 
     numActiveGestures++;
 
-    valueOnDragStart = value;
+    valueOnDragStart = props.value;
     dragValue = e.touches[0].pageY;
     isDragging = true;
   }
@@ -191,7 +190,7 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
     if (isDragging) {
       dragStartValue = e.touches[0].pageY;
       const delta = (props.speed || 1) * (dragValue - dragStartValue) / 250;
-      change(valueOnDragStart + delta, !e.shiftKey);
+      change(valueOnDragStart + delta, e.shiftKey);
     }
   }
 
@@ -203,16 +202,16 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
     numActiveGestures--;
 
     if (props.onEnd) {
-      props.onEnd(props.value);
+      props.onEnd(e, props.value);
     }
   }
 
   const arrowKeyListener = (e: KeyboardEvent) => {
-    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) && props.onChange) {
+    if (props.onNudge && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) && props.onChange) {
       e.preventDefault();
       e.stopPropagation();
       const nudge = (['ArrowDown', 'ArrowUp'].includes(e.key) ? 1 : 10) * (['ArrowLeft', 'ArrowDown'].includes(e.key) ? -1 : 1);
-      props.onChange(rangeFunctions.nudge(props.range, props.value, nudge));
+      props.onNudge(nudge);
     }
   }
 
@@ -260,10 +259,6 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
       element.removeEventListener('touchmove', touchMove);
       element.removeEventListener('touchend', touchEnd);
     }
-  });
-
-  createEffect(() => {
-    value = rangeFunctions.toNormalised(props.range, props.value);
   });
 
   return props.children(registerElement);

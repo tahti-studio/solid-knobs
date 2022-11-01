@@ -1,11 +1,11 @@
-import { ParameterGestureHandler, ParameterGestureHandlerProps } from './ParameterGestureHandler';
-import { rangeFunctions } from './range';
+import { ParameterGestureHandler } from './ParameterGestureHandler';
+import { rangeFunctions, Range } from './range';
 import { JSX, splitProps } from 'solid-js';
 
 /**
  * @group Component Properties
  */
-export interface ControlProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'>, Omit<ParameterGestureHandlerProps, 'children'> {
+export interface ControlProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
    * The label that should be used for the aria label (for accessibility).
    */
@@ -23,8 +23,36 @@ export interface ControlProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, '
 
   /**
    * Called when ending the change gesture.
-   */
+   */ 
   onGestureEnd?(e: MouseEvent | TouchEvent): void;
+
+  /**
+   * The un-normalised value.
+   */
+  value: number;
+
+  /**
+   * Called with the un-normalised value when it changes.
+   * 
+   * @param value The un-normalised value.
+   */
+  onChange(value: number): void;
+
+  /**
+   * The range of the value.
+  */
+  range: Range,
+
+  /**
+  * The relative speed of the change gesture. The default is 1.
+  */
+  speed?: number,
+
+  /**
+  * Whether the cursor should be hidden while changing the value.
+  * Note! This might result in constant annoying pop-ups in certain browsers.
+  */
+  hideCursor?: boolean
 
   children: any;
 }
@@ -47,32 +75,33 @@ export interface ControlProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, '
  * @group Components
  */
 export function Control(props: ControlProps) {
-  const [_, otherProps] = splitProps(props, ['children', 'label', 'defaultValue']);
-  const [gestureProps, divProps] = splitProps(otherProps, ['value', 'range', 'onStart', 'onChange']);
-
-  const onGestureStart = (e: MouseEvent | TouchEvent) => {
-    if (divProps.onGestureStart instanceof Function) {
-      divProps.onGestureStart(e);
-    }
-    
-    const onGestureEnd = (e: MouseEvent | TouchEvent) => {
-      if (divProps.onGestureEnd instanceof Function)
-        divProps.onGestureEnd && divProps.onGestureEnd(e);
-        
-      window.removeEventListener('mouseup', onGestureEnd);
-      window.removeEventListener('touchend', onGestureEnd);
-    };
-    window.addEventListener('mouseup', onGestureEnd);
-    window.addEventListener('touchend', onGestureEnd);
-  }
+  const [ownProps, divProps] = splitProps(props, ['children', 'speed', 'hideCursor', 'label', 'defaultValue', 'value', 'range', 'onGestureStart', 'onGestureEnd', 'onChange']);
 
   const resetToDefault = () => {
-    if (props.defaultValue && gestureProps.onChange)
-      gestureProps.onChange(props.defaultValue);
+    if (props.defaultValue && ownProps.onChange)
+      ownProps.onChange(props.defaultValue);
   }
 
   return (
-    <ParameterGestureHandler {...gestureProps}>
+    <ParameterGestureHandler
+      value={rangeFunctions.toNormalised(props.range, props.value)}
+      onChange={(value, fine) => {
+        if (!ownProps.onChange)
+          return;
+
+        value = rangeFunctions.fromNormalised(props.range, value);
+
+        if (!fine) {
+          value = rangeFunctions.snap(props.range, value);
+        }
+
+        ownProps.onChange(value);
+      }}
+      speed={ownProps.speed}
+      hideCursor={ownProps.hideCursor}
+      onStart={props.onGestureStart}
+      onEnd={props.onGestureEnd}
+      onNudge={amount => rangeFunctions.nudge(props.range, props.value, amount)}>
       {ref =>
         <div
           ref={ref}
@@ -80,13 +109,11 @@ export function Control(props: ControlProps) {
           tabIndex={0}
           role="slider"
           aria-label={props.label}
-          aria-valuemin={rangeFunctions.getStart(gestureProps.range)}
-          aria-valuemax={rangeFunctions.getEnd(gestureProps.range)}
-          aria-valuenow={gestureProps.value}
-          aria-valuetext={rangeFunctions.toString(gestureProps.range, gestureProps.value)}
-          {...divProps}
-          onMouseDown={onGestureStart}
-          onTouchStart={onGestureStart}>
+          aria-valuemin={rangeFunctions.getStart(ownProps.range)}
+          aria-valuemax={rangeFunctions.getEnd(ownProps.range)}
+          aria-valuenow={ownProps.value}
+          aria-valuetext={rangeFunctions.toString(ownProps.range, ownProps.value)}
+          {...divProps}>
           {props.children}
         </div>
       }
