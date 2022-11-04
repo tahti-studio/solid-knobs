@@ -29,12 +29,12 @@ export interface ParameterGestureHandlerProps {
   /**
    * Called when starting the change gesture.
    */
-  onStart?: (e: MouseEvent | TouchEvent, value: number) => void,
+  onGestureStart?: (e: MouseEvent | TouchEvent, value: number) => void,
 
   /**
    * Called when ending the change gesture.
    */
-  onEnd?: (e: MouseEvent | TouchEvent, value: number) => void,
+  onGestureEnd?: (e: MouseEvent | TouchEvent, value: number) => void,
 
   /**
    * The relative speed of the change gesture. The default is 1.
@@ -116,8 +116,8 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
 
     numActiveGestures--;
       
-    if (props.onEnd) {
-      props.onEnd(e, props.value);
+    if (props.onGestureEnd) {
+      props.onGestureEnd(e, props.value);
     }
     isDragging = false;
     if (props.hideCursor) {
@@ -126,8 +126,8 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   };
 
   const onMouseDown = (e: MouseEvent) => {
-    if (props.onStart) {
-      props.onStart(e, props.value);
+    if (props.onGestureStart) {
+      props.onGestureStart(e, props.value);
     }
 
     numActiveGestures++;
@@ -172,8 +172,8 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
   }
 
   const touchStart = (e: TouchEvent) => {
-    if (props.onStart) {
-      props.onStart(e, props.value);
+    if (props.onGestureStart) {
+      props.onGestureStart(e, props.value);
     }
 
     numActiveGestures++;
@@ -201,8 +201,8 @@ export function ParameterGestureHandler(props: ParameterGestureHandlerProps) {
 
     numActiveGestures--;
 
-    if (props.onEnd) {
-      props.onEnd(e, props.value);
+    if (props.onGestureEnd) {
+      props.onGestureEnd(e, props.value);
     }
   }
 
