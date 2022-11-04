@@ -1,7 +1,6 @@
 import { render } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
-// '../src' would be 'solid-knobs' in a real-life scenario
 import { 
   Arc,
   ContinuousRange,
