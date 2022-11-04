@@ -9,9 +9,9 @@
 - [children](ParameterGestureHandlerProps.md#children)
 - [value](ParameterGestureHandlerProps.md#value)
 - [onChange](ParameterGestureHandlerProps.md#onchange)
-- [onStart](ParameterGestureHandlerProps.md#onstart)
-- [onEnd](ParameterGestureHandlerProps.md#onend)
-- [range](ParameterGestureHandlerProps.md#range)
+- [onNudge](ParameterGestureHandlerProps.md#onnudge)
+- [onGestureStart](ParameterGestureHandlerProps.md#ongesturestart)
+- [onGestureEnd](ParameterGestureHandlerProps.md#ongestureend)
 - [speed](ParameterGestureHandlerProps.md#speed)
 - [hideCursor](ParameterGestureHandlerProps.md#hidecursor)
 
@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:8](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L8)
+[ParameterGestureHandler.tsx:7](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L7)
 
 ___
 
@@ -45,29 +45,30 @@ ___
 
 • **value**: `number`
 
-The un-normalised value.
+The normalised value.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:13](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L13)
+[ParameterGestureHandler.tsx:12](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L12)
 
 ___
 
 ### onChange
 
-• `Optional` **onChange**: (`value`: `number`) => `void`
+• `Optional` **onChange**: (`value`: `number`, `fine`: `boolean`) => `void`
 
 #### Type declaration
 
-▸ (`value`): `void`
+▸ (`value`, `fine`): `void`
 
-Called with the un-normalised value.
+Called with the normalised value when it changes.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `value` | `number` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `value` | `number` | The normalised value (ranging between 0 and 1). |
+| `fine` | `boolean` | `true` when the value is adjusted more finely (e.g. when shift is pressed). |
 
 ##### Returns
 
@@ -75,17 +76,43 @@ Called with the un-normalised value.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:18](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L18)
+[ParameterGestureHandler.tsx:20](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L20)
 
 ___
 
-### onStart
+### onNudge
 
-• `Optional` **onStart**: (`value`: `number`) => `void`
+• `Optional` **onNudge**: (`amount`: `number`) => `void`
 
 #### Type declaration
 
-▸ (`value`): `void`
+▸ (`amount`): `void`
+
+Called when the value is nudged forward or backward with the arrows keys.
+
+##### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `amount` | `number` | The size of the nudge. Can either be -1 or 1 for a small nudge, or -10 or 10 for a big nudge. |
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+[ParameterGestureHandler.tsx:27](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L27)
+
+___
+
+### onGestureStart
+
+• `Optional` **onGestureStart**: (`e`: `MouseEvent` \| `TouchEvent`, `value`: `number`) => `void`
+
+#### Type declaration
+
+▸ (`e`, `value`): `void`
 
 Called when starting the change gesture.
 
@@ -93,6 +120,7 @@ Called when starting the change gesture.
 
 | Name | Type |
 | :------ | :------ |
+| `e` | `MouseEvent` \| `TouchEvent` |
 | `value` | `number` |
 
 ##### Returns
@@ -101,17 +129,17 @@ Called when starting the change gesture.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:23](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L23)
+[ParameterGestureHandler.tsx:32](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L32)
 
 ___
 
-### onEnd
+### onGestureEnd
 
-• `Optional` **onEnd**: (`value`: `number`) => `void`
+• `Optional` **onGestureEnd**: (`e`: `MouseEvent` \| `TouchEvent`, `value`: `number`) => `void`
 
 #### Type declaration
 
-▸ (`value`): `void`
+▸ (`e`, `value`): `void`
 
 Called when ending the change gesture.
 
@@ -119,6 +147,7 @@ Called when ending the change gesture.
 
 | Name | Type |
 | :------ | :------ |
+| `e` | `MouseEvent` \| `TouchEvent` |
 | `value` | `number` |
 
 ##### Returns
@@ -127,19 +156,7 @@ Called when ending the change gesture.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:28](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L28)
-
-___
-
-### range
-
-• **range**: [`Range`](../README.md#range)
-
-The range of the value.
-
-#### Defined in
-
-[ParameterGestureHandler.tsx:33](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L33)
+[ParameterGestureHandler.tsx:37](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L37)
 
 ___
 
@@ -151,7 +168,7 @@ The relative speed of the change gesture. The default is 1.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:38](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L38)
+[ParameterGestureHandler.tsx:42](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L42)
 
 ___
 
@@ -164,4 +181,4 @@ Note! This might result in constant annoying pop-ups in certain browsers.
 
 #### Defined in
 
-[ParameterGestureHandler.tsx:44](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/ParameterGestureHandler.tsx#L44)
+[ParameterGestureHandler.tsx:48](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/ParameterGestureHandler.tsx#L48)

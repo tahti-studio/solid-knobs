@@ -20,7 +20,7 @@ The scaling of a [ContinuousRange](../interfaces/ContinuousRange.md).
 
 #### Defined in
 
-[range/range.ts:89](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L89)
+[range/range.ts:89](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/range/range.ts#L89)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-[range/range.ts:90](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L90)
+[range/range.ts:90](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/range/range.ts#L90)
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-[range/range.ts:91](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L91)
+[range/range.ts:91](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/range/range.ts#L91)

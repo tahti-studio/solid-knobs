@@ -1,3 +1,6 @@
+# v0.5.1
+- fix wrong prop name in `Control`
+
 # v0.5.0
 - breaking change: all logic regarding ranges is now moved from `<ParameterGestureHandler />` to `<Control />`. this allows using `ParameterGestureHandler` without the built-in range type.
 - breaking change: rename the `onStart` and `onEnd` props on `ParameterGestureHandler` to `onGestureStart` and `onGestureEnd`

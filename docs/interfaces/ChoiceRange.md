@@ -21,7 +21,7 @@ The type of a ChoiceRange is always RangeType.Choice.
 
 #### Defined in
 
-[range/range.ts:103](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L103)
+[range/range.ts:103](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/range/range.ts#L103)
 
 ___
 
@@ -33,4 +33,4 @@ A list of choices that the range contains (see Choice below).
 
 #### Defined in
 
-[range/range.ts:108](https://github.com/tahti-studio/solid-parameter-controls/blob/750fd72/src/range/range.ts#L108)
+[range/range.ts:108](https://github.com/tahti-studio/solid-parameter-controls/blob/26827f6/src/range/range.ts#L108)
