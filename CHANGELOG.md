@@ -1,3 +1,6 @@
+# v0.5.2
+- fix `Control` not nudging values
+
 # v0.5.1
 - fix wrong prop name in `Control`
 
