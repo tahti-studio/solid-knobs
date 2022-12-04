@@ -101,7 +101,7 @@ export function Control(props: ControlProps) {
       hideCursor={ownProps.hideCursor}
       onGestureStart={props.onGestureStart}
       onGestureEnd={props.onGestureEnd}
-      onNudge={amount => rangeFunctions.nudge(props.range, props.value, amount)}>
+      onNudge={amount => ownProps.onChange(rangeFunctions.nudge(props.range, props.value, amount))}>
       {ref =>
         <div
           ref={ref}
